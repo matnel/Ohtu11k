@@ -47,12 +47,16 @@ public class NewSchedule extends CliCommand {
 
 		System.out.print("Creating schedule...");
 
-		this.schedule.setPeriod(period);
-		this.schedule.setSchedule(dates);
-
+		this.excecute(period, dates );
+		
 		System.out.println("ok!");
 
 	}
+	
+	private void excecute(String period, ArrayList<Day> dates) {
+		this.schedule.setPeriod(period);
+		this.schedule.setSchedule(dates);
+	} 
 
 	
 }
