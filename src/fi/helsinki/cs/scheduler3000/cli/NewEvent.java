@@ -15,7 +15,7 @@ public class NewEvent extends CliCommand {
 	}
 	
 	private void newEventDialog() {
-		int startTime = null, endTime = null
+		int startTime, endTime;
 		String location = null, title = null, eventDayTemp;
 		Day eventDay = null;
 
