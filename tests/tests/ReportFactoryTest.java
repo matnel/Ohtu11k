@@ -9,7 +9,9 @@ import org.junit.* ;
 
 import fi.helsinki.cs.scheduler3000.*;
 import fi.helsinki.cs.scheduler3000.model.Event;
+import fi.helsinki.cs.scheduler3000.model.Schedule;
 import fi.helsinki.cs.scheduler3000.model.Weekday;
+import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
 import fi.helsinki.cs.scheduler3000.report.Report;
 import fi.helsinki.cs.scheduler3000.report.ReportFactory;
 import junit.framework.TestCase;
@@ -18,9 +20,10 @@ import java.util.HashMap;
 
 public class ReportFactoryTest extends TestCase {
 
-	MockSchedule sched;
+	Schedule sched;
 	HashMap<String, Object> options;
-	final String STARTTIME = "08", ENDTIME = "12", TITLE = "title", LOCATION = "location"; 
+	final int STARTTIME = 8, ENDTIME = 12;
+	final String TITLE = "title", LOCATION = "location"; 
 
 	@Before
 	public void setUp() throws Exception {
@@ -28,8 +31,8 @@ public class ReportFactoryTest extends TestCase {
 		weekdays.add(Weekday.Day.MON);
 		weekdays.add(Weekday.Day.THU);
 
-		sched = new MockSchedule(weekdays);
-		sched.addEvent(Weekday.Day.MON, new Event(STARTTIME, ENDTIME, TITLE, LOCATION));
+		sched = new Schedule(weekdays);
+		sched.addEvent( new Event(Weekday.Day.MON, TITLE, LOCATION, STARTTIME, ENDTIME));
 		
 		options = new HashMap<String, Object>();
 
@@ -49,7 +52,7 @@ public class ReportFactoryTest extends TestCase {
 		
 		Report r = ReportFactory.makeReport(ReportFactory.ReportType.DAY, sched, options);
 		assertTrue(r.toString() != null);
-		assertTrue(r.toString().contains(Weekday.longNameMap.get(Weekday.Day.MON)));
+		assertTrue(r.toString().contains(Weekday.Day.MON.getName()));
 	}
 
 	@Test
@@ -79,8 +82,8 @@ public class ReportFactoryTest extends TestCase {
 		
 		Report r = ReportFactory.makeReport(ReportFactory.ReportType.WEEK, sched, options);
 		assertTrue(r.toString() != null);
-		assertTrue(r.toString().contains("MON"));
-		assertTrue(r.toString().contains("THU"));
+		assertTrue(r.toString().contains( Day.MON.toString() ));
+		assertTrue(r.toString().contains( Day.THU.toString() ));
 	}
 	
 	@Test
@@ -110,16 +113,16 @@ public class ReportFactoryTest extends TestCase {
 		assertTrue(r.toString() != null);
 		
 		// full report holds label for Monday
-		assertTrue(r.toString().contains("MON")); 
+		assertTrue(r.toString().contains( Day.MON.getName() )); 
 		
 		// full report holds single event
-		assertTrue(r.toString().contains(STARTTIME));
-		assertTrue(r.toString().contains(ENDTIME));
+		assertTrue(r.toString().contains(""+ STARTTIME));
+		assertTrue(r.toString().contains("" + ENDTIME));
 		assertTrue(r.toString().contains(TITLE));
 		assertTrue(r.toString().contains(LOCATION));
 		
 		// full report holds label for Thursday
-		assertTrue(r.toString().contains("THU"));
+		assertTrue(r.toString().contains( Day.THU.getName() ));
 		
 	}
 	
