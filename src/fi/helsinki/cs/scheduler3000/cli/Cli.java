@@ -44,15 +44,16 @@ public class Cli extends CliCommand {
 				if (schedule == null){ // cannot do this if schedule is not existing
 					break;
 				}
-				printReportDialogToScreenDialog();
+				CliCommand command = new NewReportToScreen(schedule);
+				command.run();
 				break;
 				
 			case 'a':
 				if (schedule == null){ // cannot do this if schedule is not existing 
 					break;
 				}
-				CliCommand command = new NewEvent(schedule);
-				command.run();
+				CliCommand command1 = new NewEvent(schedule);
+				command1.run();
 				break;
 				
 			case 's':
@@ -67,7 +68,8 @@ public class Cli extends CliCommand {
 				if (schedule == null){ // cannot do this if schedule is not existing
 					break;
 				}
-				printReportToFileDialog();
+				CliCommand newReportToFile = new NewReportToFile(schedule);
+				newReportToFile.run();
 				break;
 				
 			case 'n':
@@ -92,18 +94,6 @@ public class Cli extends CliCommand {
 		} while (true);
 
 	}
-	
-	private static HashMap<String, Object> getOptions(String key, Day value) {
-		HashMap<String, Object> ret = new HashMap<String, Object>();
-		ret.put(key, value);
-		return ret;
-	}
-
-	private static HashMap<String, Object> getOptions(String key, ArrayList<Day> value) {
-		HashMap<String, Object> ret = new HashMap<String, Object>();
-		ret.put(key, value);
-		return ret;
-	}
 
 	private static void printCommands() {
 		System.out.println("Commands");
@@ -117,114 +107,6 @@ public class Cli extends CliCommand {
 			System.out.println("Print a report to [F]ile");
 		}
 		System.out.println("[Q]uit");
-	}
-
-	private static Report printReportDialog() {
-		Character command = null;
-
-		while (true) {
-			System.out.print("Which type of report do you want to print? Options are: ");
-			for (ReportFactory.ReportType type : ReportFactory.ReportType.values()){
-				// make types the way every other option is shown to user
-				System.out.print("[" + type.toString().charAt(0) + "]" + type.toString().substring(1).toLowerCase()); 
-				System.out.print(" ");
-			}
-			System.out.println("[N]one");
-			printPrompt();
-			command = sanitize(input.nextLine());
-			String in = null;
-
-			switch (command) {
-
-			case 'd':
-
-				System.out.println("Which day you want to see your schedule for?");
-				Helpers.printDates();
-				printPrompt();
-				in = input.nextLine();
-				Day day = Helpers.getDay(in);
-				if (day == null){
-					System.out.println("Unvalid date");
-					break;
-				}
-				return ReportFactory.makeReport(ReportFactory.ReportType.DAY, schedule, getOptions("day", day));
-
-			case 'f':
-				return ReportFactory.makeReport(ReportFactory.ReportType.FULL, schedule, null); // full report doesen't need options
-
-			case 'w':
-				ArrayList<Day> days = new ArrayList<Day>();
-
-				System.out.println("Which days you want to include in this report? You can end with \""+endCommand+"\"");
-				System.out.println("One at the time, please");
-
-				while (true){
-					// print only available dates
-					Helpers.printDates(schedule);
-					printPrompt();
-
-					in = input.nextLine();
-					if (in.equals(endCommand)) {
-						break;
-					}
-					else {
-						// validate date
-						Day dayT = Helpers.getDay(in);
-						if( dayT == null || schedule.getSchedule().containsKey(dayT)) {
-							System.out.println("Unvalid date");
-						} else {
-							days.add( Helpers.getDay(in) );
-						}
-					}
-				}
-
-				return ReportFactory.makeReport(ReportFactory.ReportType.WEEK, schedule, getOptions("days", days));
-
-
-			case 'n':
-				System.out.println("Returning back to main menu");
-				return null;
-				
-			default:
-				System.out.println("Cannot parse " + command);
-				break;
-			}
-
-		}
-	}
-
-	private static void printReportToFileDialog() {
-		Report report = printReportDialog();
-		if (report != null) {
-			PrintWriter out = null;
-			String filename = null;
-			
-			System.out.println("Give full file name and path (if applicable)");
-			
-			while (true){
-				printPrompt();
-				try {
-					filename = input.nextLine().trim();
-					out = new PrintWriter(filename);
-					break; // break out of the loop
-				} catch (FileNotFoundException e) {
-					System.out.println("File " + filename + " was not found");
-				}
-			}
-			
-			System.out.print("Writing the file...");
-			out.print(report);
-			out.close();
-			System.out.println("ok!");
-		}
-	}
-
-	private static void printReportDialogToScreenDialog() {
-		Report report = printReportDialog();
-		if (report != null){
-			System.out.println(printReportDialog());
-		}
-		
 	}
 
 }
