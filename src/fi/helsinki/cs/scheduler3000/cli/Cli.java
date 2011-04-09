@@ -96,17 +96,6 @@ public class Cli {
 
 	}
 	
-	private static boolean checkDate(String in, Schedule schedule) {
-		Weekday.Day day = null;
-		day = Helpers.getDay(in);
-		// check if the date is valid at all
-		if( day == null) {
-			return false;
-		}
-		// check if specified date is in the schedule
-		return schedule.getSchedule().containsKey(day);
-	}
-
 	private static HashMap<String, Object> getOptions(String key, Day value) {
 		HashMap<String, Object> ret = new HashMap<String, Object>();
 		ret.put(key, value);
@@ -373,11 +362,14 @@ public class Cli {
 					if (in.equals(endCommand)) {
 						break;
 					}
-					else if (!checkDate(in, schedule)){
-						System.out.println("Unvalid date");
-					}
 					else {
-						days.add( Helpers.getDay(in) );
+						// validate date
+						Day dayT = Helpers.getDay(in);
+						if( dayT == null || schedule.getSchedule().containsKey(dayT)) {
+							System.out.println("Unvalid date");
+						} else {
+							days.add( Helpers.getDay(in) );
+						}
 					}
 				}
 
