@@ -393,10 +393,6 @@ public class Cli extends CliCommand {
 		
 	}
 
-	private static Character sanitize(String rawInput){
-		return new Character(rawInput.toLowerCase().charAt(0));
-	}
-
 	private static boolean save(String filename) {
 	
 		// nullify static variable to be sure
