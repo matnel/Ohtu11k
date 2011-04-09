@@ -27,7 +27,6 @@ import fi.helsinki.cs.scheduler3000.report.ReportFactory.ReportType;
 public class Cli extends CliCommand {
 	
 	private static Schedule schedule = null;
-	private static ObjectOutputStream objectOutput;
 	
 	public void run(){
 
@@ -60,7 +59,8 @@ public class Cli extends CliCommand {
 				if (schedule == null) { // cannot do this if schedule is not existing
 					break;
 				}
-				saveScheduleDialog();
+				CliCommand saveSchedule = new SaveSchedule(schedule);
+				saveSchedule.run();
 				break;
 				
 			case 'f':
@@ -226,62 +226,5 @@ public class Cli extends CliCommand {
 		}
 		
 	}
-
-	private static boolean save(String filename) {
-	
-		// nullify static variable to be sure
-		objectOutput = null;
-		
-		FileOutputStream fos = null;
-		
-		try {
-			fos = new FileOutputStream(filename);	
-		} catch (FileNotFoundException e) {
-			System.out.println("Cannot open \"" + filename + "\", something's wrong with it");
-			return false;
-		}
-		
-		try {
-			//output is Cli's static variable
-			objectOutput = new ObjectOutputStream(fos);
-		} catch (IOException e) {
-			System.out.println("Cannot write to \"" + filename + "\"");
-			return false;
-		}
-		
-		try {
-			objectOutput.writeObject(schedule);
-			objectOutput.close();
-			return true;
-		} catch (IOException e) {
-			System.out.println("Writing to \"" + filename + "\" failed");
-			return false;
-		}
-	
-	}
-
-	private static void saveScheduleDialog() {
-		System.out.println("Give name of the file to open");
-		System.out.println("Notice that file will be saved with .dat-extension, eg. \"myfile\" will be \"myfile.dat\" ");
-		printPrompt();
-		String filename = input.nextLine().trim() + ".dat";
-		while (true){
-			if (save(filename)){
-				break;
-			}
-			else {
-				System.out.println("Please enter the name of the file again");
-				System.out.println("You can exit with " + endCommand);
-				filename = input.nextLine().trim() + ".dat";
-				
-				if (filename.trim().toLowerCase().equals(endCommand)) {
-					return;
-				}
-				
-
-			}
-		}
-		System.out.println("Schedule saved as \"" + filename + "\"");
-	}	
 
 }
