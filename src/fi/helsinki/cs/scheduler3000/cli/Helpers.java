@@ -76,8 +76,4 @@ public class Helpers {
 		System.out.println();
 	}
 
-	static void printPrompt() {
-		System.out.print("?>");
-	}
-
 }
