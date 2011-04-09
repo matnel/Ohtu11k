@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Map.Entry;
 
 import fi.helsinki.cs.scheduler3000.model.Event;
 import fi.helsinki.cs.scheduler3000.model.Schedule;
@@ -42,7 +41,7 @@ public class Cli {
 		do {
 			System.out.println();
 			printCommands();
-			printPrompt();
+			Helpers.printPrompt();
 			foo = sanitize(input.nextLine());
 
 			switch (foo) {
@@ -117,8 +116,8 @@ public class Cli {
 			System.out.println("");
 
 			System.out.println("Which day is the event?");
-			printDates();
-			printPrompt();
+			Helpers.printDates();
+			Helpers.printPrompt();
 			eventDayTemp =  input.nextLine();
 
 			System.err.println( eventDayTemp );
@@ -128,21 +127,21 @@ public class Cli {
 			}
 
 			System.out.println("What is the start time?");
-			printPrompt();
+			Helpers.printPrompt();
 			startTime = input.nextLine();
 
 			System.out.println("What is the end time?");
-			printPrompt();
+			Helpers.printPrompt();
 			endTime = input.nextLine();
 
 			System.out.println("What this event should be named as?");
 			System.out.println("(just press enter to skip this)");
-			printPrompt();
+			Helpers.printPrompt();
 			title = input.nextLine();
 
 			System.out.println("Where this event is held?");
 			System.out.println("(just press enter to skip this)");
-			printPrompt();
+			Helpers.printPrompt();
 			location = input.nextLine();
 
 			try {
@@ -182,7 +181,7 @@ public class Cli {
 		ArrayList<Day> dates = new ArrayList<Day>();
 
 		System.out.println("Enter the period this schedule is for:");
-		printPrompt();
+		Helpers.printPrompt();
 		String period = input.nextLine();
 
 		System.out.println("Give dates you want to include in the scedule");
@@ -190,9 +189,9 @@ public class Cli {
 		System.out.println("One at a time, please");
 
 		do {
-			printDates();
+			Helpers.printDates();
 			Helpers.printSelection(dates);
-			printPrompt();
+			Helpers.printPrompt();
 			in = input.nextLine().trim();
 
 			if (in.toLowerCase().equals(endCommand)){
@@ -248,7 +247,7 @@ public class Cli {
 
 	private static void openScheduleDialog() {
 		System.out.println("Give name of the file to be opened");
-		printPrompt();
+		Helpers.printPrompt();
 		String filename = input.nextLine().trim();
 		while (true) {
 			
@@ -288,32 +287,6 @@ public class Cli {
 		System.out.println("[Q]uit");
 	}
 
-	private static void printDates() {
-		System.out.print("Dates are: ");
-		for (Entry<Integer, Day> day : Helpers.intToDays.entrySet()){
-			System.out.print(day.getKey());
-			System.out.print(" - ");
-			System.out.print(day.getValue());
-			System.out.print(" ");
-		}	
-		System.out.println();
-	}
-
-	private static void printDates(Schedule schedule) {
-		System.out.print("Dates are: ");
-		for (Day d : schedule.getSchedule().keySet()){
-			System.out.print( Helpers.daysToInt.get(d) );
-			System.out.print(" - ");
-			System.out.print(d);
-			System.out.print(" ");
-		}	
-		System.out.println();
-	}
-
-	private static void printPrompt() {
-		System.out.print("?>");
-	}
-
 	private static Report printReportDialog() {
 		Character command = null;
 
@@ -325,7 +298,7 @@ public class Cli {
 				System.out.print(" ");
 			}
 			System.out.println("[N]one");
-			printPrompt();
+			Helpers.printPrompt();
 			command = sanitize(input.nextLine());
 			String in = null;
 
@@ -334,8 +307,8 @@ public class Cli {
 			case 'd':
 
 				System.out.println("Which day you want to see your schedule for?");
-				printDates();
-				printPrompt();
+				Helpers.printDates();
+				Helpers.printPrompt();
 				in = input.nextLine();
 				Day day = Helpers.getDay(in);
 				if (day == null){
@@ -355,8 +328,8 @@ public class Cli {
 
 				while (true){
 					// print only available dates
-					printDates(schedule);
-					printPrompt();
+					Helpers.printDates(schedule);
+					Helpers.printPrompt();
 
 					in = input.nextLine();
 					if (in.equals(endCommand)) {
@@ -397,7 +370,7 @@ public class Cli {
 			System.out.println("Give full file name and path (if applicable)");
 			
 			while (true){
-				printPrompt();
+				Helpers.printPrompt();
 				try {
 					filename = input.nextLine().trim();
 					out = new PrintWriter(filename);
@@ -462,7 +435,7 @@ public class Cli {
 	private static void saveScheduleDialog() {
 		System.out.println("Give name of the file to open");
 		System.out.println("Notice that file will be saved with .dat-extension, eg. \"myfile\" will be \"myfile.dat\" ");
-		printPrompt();
+		Helpers.printPrompt();
 		String filename = input.nextLine().trim() + ".dat";
 		while (true){
 			if (save(filename)){

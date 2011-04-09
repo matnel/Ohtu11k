@@ -54,4 +54,30 @@ public class Helpers {
 		}
 	}
 
+	static void printDates() {
+		System.out.print("Dates are: ");
+		for (Entry<Integer, Day> day : intToDays.entrySet()){
+			System.out.print(day.getKey());
+			System.out.print(" - ");
+			System.out.print(day.getValue());
+			System.out.print(" ");
+		}	
+		System.out.println();
+	}
+
+	static void printDates(Schedule schedule) {
+		System.out.print("Dates are: ");
+		for (Day d : schedule.getSchedule().keySet()){
+			System.out.print( daysToInt.get(d) );
+			System.out.print(" - ");
+			System.out.print(d);
+			System.out.print(" ");
+		}	
+		System.out.println();
+	}
+
+	static void printPrompt() {
+		System.out.print("?>");
+	}
+
 }
