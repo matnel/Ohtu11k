@@ -8,9 +8,7 @@ import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
 public class NewSchedule extends CliCommand {
 	
 	NewSchedule(Schedule schedule) {
-		System.out.println( schedule );
 		this.schedule = schedule;
-		System.out.println( schedule );
 	}
 	
 	void run() {
