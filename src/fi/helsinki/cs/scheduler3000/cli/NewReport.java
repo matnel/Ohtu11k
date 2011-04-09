@@ -64,10 +64,10 @@ public class NewReport extends CliCommand {
 					System.out.println("Unvalid date");
 					break;
 				}
-				return ReportFactory.makeReport(ReportFactory.ReportType.DAY, schedule, getOptions("day", day));
+				report = ReportFactory.makeReport(ReportFactory.ReportType.DAY, schedule, getOptions("day", day));
 
 			case 'f':
-				return ReportFactory.makeReport(ReportFactory.ReportType.FULL, schedule, null); // full report doesen't need options
+				report = ReportFactory.makeReport(ReportFactory.ReportType.FULL, schedule, null); // full report doesen't need options
 
 			case 'w':
 				ArrayList<Day> days = new ArrayList<Day>();
@@ -95,7 +95,7 @@ public class NewReport extends CliCommand {
 					}
 				}
 
-				return ReportFactory.makeReport(ReportFactory.ReportType.WEEK, schedule, getOptions("days", days));
+				report = ReportFactory.makeReport(ReportFactory.ReportType.WEEK, schedule, getOptions("days", days));
 
 
 			case 'n':
