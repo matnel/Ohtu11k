@@ -14,7 +14,7 @@ public class NewSchedule extends CliCommand {
 	}
 	
 	void run() {
-		
+		newScheduleDialog();
 	}
 	
 	private void newScheduleDialog() {
