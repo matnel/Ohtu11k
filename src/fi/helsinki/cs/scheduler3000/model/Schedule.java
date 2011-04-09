@@ -20,7 +20,7 @@ public class Schedule implements Serializable {
     // CONSTRUCTORS
     
     // this constructor is solely for mock objects to use, hence protected
-    protected Schedule(){ 
+    public Schedule(){ 
     	this.period = null;
     	this.schedule = null;
     }
