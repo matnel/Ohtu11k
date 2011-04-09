@@ -2,13 +2,9 @@ package fi.helsinki.cs.scheduler3000.cli;
 
 import java.util.Scanner;
 
-import fi.helsinki.cs.scheduler3000.model.Schedule;
+public abstract class CliCommand {
 
-public class CliCommand {
-
-	void run() {
-		
-	}
+	abstract void run();
 	
 	protected static void printPrompt() {
 		System.out.print("?>");
