@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Map.Entry;
 
 import fi.helsinki.cs.scheduler3000.model.Event;
 import fi.helsinki.cs.scheduler3000.model.Schedule;
@@ -94,36 +95,48 @@ public class Cli {
 		} while (true);
 
 	}
-
-	private static boolean checkDate(String in) {
-		Integer day = null;
-		// try-catch makes sure that input is numeric 
+	
+	private static HashMap<Integer, Weekday.Day> intToDays = new HashMap<Integer, Weekday.Day>();
+	private static HashMap<Day, Integer> daysToInt = new HashMap<Day, Integer>();
+	
+	static {
+		intToDays.put( new Integer(1) , Weekday.Day.MON );
+		intToDays.put( new Integer(2) , Weekday.Day.TUE );
+		intToDays.put( new Integer(3) , Weekday.Day.WED );
+		intToDays.put( new Integer(4) , Weekday.Day.THU );
+		intToDays.put( new Integer(5) , Weekday.Day.FRI );
+		intToDays.put( new Integer(6) , Weekday.Day.SAT );
+		intToDays.put( new Integer(7) , Weekday.Day.SUN );
+		
+		// fill the other way HashMap
+		for( Entry<Integer, Day> day : intToDays.entrySet() ) {
+			daysToInt.put( day.getValue() , day.getKey() );
+		}
+	}
+	
+	private static Weekday.Day getDay(String in){
+		Weekday.Day day = null;
+		
 		try {
-
-			day = Integer.parseInt(in);
-			// check if day is indeed a valid number
-			if (day > 0 && day < 7){
-				return true; // day ok, exit!
-			}
-
-			System.out.println("Sorry, but \""+day+"\" is not a valid number for date");
-
-
+			int dayInt = Integer.parseInt(in);
+			day = intToDays.get(dayInt);
+			// validate inut here
 		} catch (NumberFormatException e) {	
 			System.out.println("Sorry, cannot parse \""+in+"\"");
-		}	
-
-		return false;
-
+		}
+		
+		return day;
 	}
 
 	private static boolean checkDate(String in, Schedule schedule) {
+		Weekday.Day day = null;
+		day = getDay(in);
 		// check if the date is valid at all
-		if (!checkDate(in)){
+		if( day == null) {
 			return false;
 		}
 		// check if specified date is in the schedule
-		return schedule.getSchedule().containsKey(Weekday.intToEnumMap.get(Integer.parseInt(in)));
+		return schedule.getSchedule().containsKey(day);
 	}
 
 	private static HashMap<String, Object> getOptions(String key, Day value) {
@@ -151,6 +164,8 @@ public class Cli {
 			printPrompt();
 			eventDayTemp =  input.nextLine();
 
+			System.err.println( eventDayTemp );
+			System.err.println( endCommand );
 			if (eventDayTemp.equals(endCommand)){
 				return;
 			}
@@ -174,11 +189,10 @@ public class Cli {
 			location = input.nextLine();
 
 			try {
-				if (!checkDate(eventDayTemp)){
+				eventDay = getDay(eventDayTemp);
+				if ( eventDay != null){
 					continue;
 				}
-
-				eventDay = Weekday.intToEnumMap.get(Integer.parseInt(eventDayTemp));
 				event = new Event(startTime, endTime, title, location);
 				break; // success, get out of the do-while
 
@@ -228,8 +242,13 @@ public class Cli {
 				break;
 			}
 			else {
-				if(checkDate(in.trim())){
-					dates.add(Integer.parseInt(in.trim()));
+				try {
+					int value = Integer.parseInt(in.trim());
+					if( intToDays.containsKey(value) ) {
+						dates.add(value);
+					}
+				} catch(NumberFormatException e){
+					System.out.println("Invalid input " + in);
 				}
 			}
 
@@ -239,7 +258,8 @@ public class Cli {
 
 		ArrayList<Day> days = new ArrayList<Day>();
 		for(Integer d : dates){
-			days.add(Weekday.intToEnumMap.get(d));
+			// XXX ugly!
+			days.add(getDay("" + d));
 		}
 
 		schedule = new Schedule(days, period);
@@ -324,10 +344,10 @@ public class Cli {
 
 	private static void printDates() {
 		System.out.print("Dates are: ");
-		for (Day d : Day.values()){
-			System.out.print(Weekday.enumToIntMap.get(d));
+		for (Entry<Integer, Day> day : intToDays.entrySet()){
+			System.out.print(day.getKey());
 			System.out.print(" - ");
-			System.out.print(Weekday.longNameMap.get(d));
+			System.out.print(day.getValue());
 			System.out.print(" ");
 		}	
 		System.out.println();
@@ -336,9 +356,9 @@ public class Cli {
 	private static void printDates(Schedule schedule) {
 		System.out.print("Dates are: ");
 		for (Day d : schedule.getSchedule().keySet()){
-			System.out.print(Weekday.enumToIntMap.get(d));
+			System.out.print( daysToInt.get(d) );
 			System.out.print(" - ");
-			System.out.print(Weekday.longNameMap.get(d));
+			System.out.print(d);
 			System.out.print(" ");
 		}	
 		System.out.println();
@@ -371,12 +391,11 @@ public class Cli {
 				printDates();
 				printPrompt();
 				in = input.nextLine();
-				if (!checkDate(in)){
+				Day day = getDay(in);
+				if (day == null){
 					System.out.println("Unvalid date");
 					break;
 				}
-
-				Day day = Weekday.intToEnumMap.get(Integer.parseInt(in));
 				return ReportFactory.makeReport(ReportFactory.ReportType.DAY, schedule, getOptions("day", day));
 
 			case 'f':
@@ -401,7 +420,7 @@ public class Cli {
 						System.out.println("Unvalid date");
 					}
 					else {
-						days.add(Weekday.intToEnumMap.get(Integer.parseInt(in)));
+						days.add( getDay(in) );
 					}
 				}
 
@@ -453,12 +472,13 @@ public class Cli {
 		}
 		
 	}
-
+	
+	// XXX modify to take in Days
 	private static void printSelection(HashSet<Integer> dates) {
 		if (dates.size() > 0){
 			System.out.print("You have selected: ");
 			for (Integer d : dates){
-				System.out.print(Weekday.longNameMap.get(Weekday.intToEnumMap.get(d)));
+				System.out.print( intToDays.get(d) );
 				System.out.print(" ");
 			}
 			System.out.println();
