@@ -32,32 +32,21 @@ public class ScheduleTest extends TestCase {
 		week.add(Day.FRI);
 		
 		events = new ArrayList<Event>();
-		events.add(new Event("08", "12", "first", "firstLocation"));
-		events.add(new Event("18", "20", "second", "secondLocation"));
-		events.add(new Event("12", "14", "third", "thirdLocation"));
-		events.add(new Event("10", "16", "fourth", "fourthLocation"));
-		events.add(new Event("14", "18", "fifth", "fifthLocation"));
-		events.add(new Event("08", "20", "sixth", "sixthLocation"));
-		
-		map = new HashMap<Day, ArrayList<Event>>();
-		for (Day d : week){
-			map.put(d, events);
-		}
+		events.add(new Event( Day.MON, "first", "firstLocation", 8, 10));
+		events.add(new Event( Day.TUE, "second", "secondLocation", 18, 20));
+		events.add(new Event( Day.WED, "third", "thirdLocation", 12, 14));
+		events.add(new Event( Day.THU, "fourth", "fourthLocation", 16, 18));
 		
 	}
 
 	@After
 	public void tearDown() throws Exception {
+		
 		map = null;
-		
 		events = null;
-		
 		week = null;		
-		
-		// if test case forgots to set schedule to null...
-		if (schedule != null){
-			schedule = null;
-		}
+		schedule = null;
+
 	}
 	
 
@@ -117,23 +106,19 @@ public class ScheduleTest extends TestCase {
 	@Test
 	public void testAddEvent(){
 		schedule = new Schedule(week, "period");
-		Event e = new Event("16", "18", "testAddEvent", "testAddEventLocation");
-		schedule.addEvent(Day.FRI, e);
+		Event e = new Event( Day.FRI, "testAddEvent", "testAddEventLocation", 16, 20);
+		schedule.addEvent(e);
 		
 		assertEquals(1, schedule.getSchedule().get(Day.FRI).size());
 		assertEquals(e, schedule.getSchedule().get(Day.FRI).get(0));
 	}
 	
-	@Test
+	@Test(expected=IllegalArgumentException.class)
 	public void testAddEventWhenWrongDay(){
 		schedule = new Schedule(week, "period");
 		
-		try {
-			schedule.addEvent(Day.SUN, events.get(0));
-			fail("Expecting IllegalArgumentException when no such day in schedule");
-		} catch (IllegalArgumentException e) {
-			// Everything went better than expected
-		}
+		Event invalid = new Event( Day.SUN, "testAddEvent", "testAddEventLocation", 16, 20 );
+		schedule.addEvent(invalid);
 		
 	}
 	
