@@ -17,7 +17,7 @@ public class NewSchedule extends CliCommand {
 		
 	}
 	
-	private static void newScheduleDialog() {
+	private void newScheduleDialog() {
 		String in = null;
 		ArrayList<Day> dates = new ArrayList<Day>();
 
