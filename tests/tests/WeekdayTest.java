@@ -5,63 +5,47 @@ package tests;
  */
 
 
+import java.util.GregorianCalendar;
+
 import junit.framework.TestCase;
 import org.junit.*;
 
-import fi.helsinki.cs.scheduler3000.model.Weekday;
+import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
 
 public class WeekdayTest extends TestCase {
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
+	
+	@Test
+	public void testEnumToString() {
+		assertEquals( "Monday", Day.MON.toString() );
+		assertEquals( "Tuesday", Day.TUE.toString() );
+		assertEquals( "Wednesday", Day.WED.toString() );
+		assertEquals( "Thursday", Day.THU.toString() );
+		assertEquals( "Friday", Day.FRI.toString() );
+		assertEquals( "Saturday", Day.SAT.toString() );
+		assertEquals( "Sunday", Day.SUN.toString() );
 	}
 	
 	@Test
-	public void testIntToEnumMap(){
-		// is initiated
-		assertNotNull(Weekday.intToEnumMap);
-		
-		// has the same number of values
-		assertEquals(Weekday.Day.values().length, Weekday.intToEnumMap.size());
-		
-		// all values match
-		int counter = 0;
-		for (Weekday.Day mapVal : Weekday.intToEnumMap.values()){
-			for (Weekday.Day realVal : Weekday.Day.values()){
-				if (mapVal.compareTo(realVal) == 0){
-					counter++;
-				}
-			}
-		}	
-		assertEquals(Weekday.Day.values().length, counter);
+	public void testEnumNames() {
+		assertEquals( "Monday", Day.MON.getName() );
+		assertEquals( "Tuesday", Day.TUE.getName() );
+		assertEquals( "Wednesday", Day.WED.getName() );
+		assertEquals( "Thursday", Day.THU.getName() );
+		assertEquals( "Friday", Day.FRI.getName() );
+		assertEquals( "Saturday", Day.SAT.getName() );
+		assertEquals( "Sunday", Day.SUN.getName() );
 	}
 	
 	@Test
-	public void testEnumToIntMap(){
-		assertNotNull(Weekday.enumToIntMap);
-		
-		assertEquals(Weekday.Day.values().length, Weekday.enumToIntMap.size());
-		
-		int counter = 0;
-		for (Weekday.Day mapVal : Weekday.enumToIntMap.keySet()){
-			for (Weekday.Day realVal : Weekday.Day.values()){
-				if (mapVal.compareTo(realVal) == 0){
-					counter++;
-				}
-			}
-		}
-		assertEquals(Weekday.Day.values().length, counter);
-	}
-	
-	@Test
-	public void testLongNameMap(){
-		assertNotNull(Weekday.longNameMap);
-		
-		assertEquals(Weekday.Day.values().length, Weekday.longNameMap.size());
+	public void testEnumValues() {
+		assertEquals( GregorianCalendar.MONDAY , Day.MON.getCalendarDay() );
+		assertEquals( GregorianCalendar.TUESDAY , Day.TUE.getCalendarDay() );
+		assertEquals( GregorianCalendar.WEDNESDAY , Day.WED.getCalendarDay() );
+		assertEquals( GregorianCalendar.THURSDAY , Day.THU.getCalendarDay() );
+		assertEquals( GregorianCalendar.FRIDAY , Day.FRI.getCalendarDay() );
+		assertEquals( GregorianCalendar.SATURDAY , Day.SAT.getCalendarDay() );
+		assertEquals( GregorianCalendar.SUNDAY , Day.SUN.getCalendarDay() );
 	}
 
 }
