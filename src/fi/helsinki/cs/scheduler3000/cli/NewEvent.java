@@ -15,7 +15,8 @@ public class NewEvent extends CliCommand {
 	}
 	
 	private void newEventDialog() {
-		String startTime = null, endTime = null, location = null, title = null, eventDayTemp;
+		int startTime = null, endTime = null
+		String location = null, title = null, eventDayTemp;
 		Day eventDay = null;
 
 		do {
@@ -34,11 +35,11 @@ public class NewEvent extends CliCommand {
 
 			System.out.println("What is the start time?");
 			printPrompt();
-			startTime = input.nextLine();
+			startTime = input.nextInt();
 
 			System.out.println("What is the end time?");
 			printPrompt();
-			endTime = input.nextLine();
+			endTime = input.nextInt();
 
 			System.out.println("What this event should be named as?");
 			System.out.println("(just press enter to skip this)");
@@ -81,8 +82,8 @@ public class NewEvent extends CliCommand {
 
 	}
 	
-	private void execute(Day day, String title, String location, String startTime, String endTime) {
-		Event event = new Event(startTime, endTime, title, location);
+	private void execute(Day day, String title, String location, int startTime, int endTime) {
+		Event event = new Event(title, location, startTime, endTime);
 		schedule.addEvent(day, event);
 	}
 
