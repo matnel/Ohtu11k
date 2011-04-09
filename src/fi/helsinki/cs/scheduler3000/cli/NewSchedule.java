@@ -6,11 +6,11 @@ import fi.helsinki.cs.scheduler3000.model.Schedule;
 import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
 
 public class NewSchedule extends CliCommand {
-
-	private Schedule schedule;
 	
 	NewSchedule(Schedule schedule) {
+		System.out.println( schedule );
 		this.schedule = schedule;
+		System.out.println( schedule );
 	}
 	
 	void run() {
@@ -48,7 +48,9 @@ public class NewSchedule extends CliCommand {
 		} while (true);
 
 		System.out.print("Creating schedule...");
-		schedule = new Schedule(dates, period);
+
+		this.schedule.setPeriod(period);
+		this.schedule.setSchedule(dates);
 
 		System.out.println("ok!");
 

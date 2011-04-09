@@ -26,76 +26,75 @@ import fi.helsinki.cs.scheduler3000.report.ReportFactory.ReportType;
 
 public class Cli extends CliCommand {
 	
-	private static Schedule schedule = null;
+	private Schedule schedule = null;
 	
 	public void run(){
 
 		Character foo;
+		
 
 		do {
 			System.out.println();
 			printCommands();
 			printPrompt();
 			foo = sanitize(input.nextLine());
-
+			CliCommand command = null;
 			switch (foo) {
 			
 			case 'p':
 				if (schedule == null){ // cannot do this if schedule is not existing
 					break;
 				}
-				CliCommand command = new NewReportToScreen(schedule);
-				command.run();
+				command = new NewReportToScreen(schedule);
 				break;
 				
 			case 'a':
 				if (schedule == null){ // cannot do this if schedule is not existing 
 					break;
 				}
-				CliCommand command1 = new NewEvent(schedule);
-				command1.run();
+				command = new NewEvent(schedule);
 				break;
 				
 			case 's':
 				if (schedule == null) { // cannot do this if schedule is not existing
 					break;
 				}
-				CliCommand saveSchedule = new SaveSchedule(schedule);
-				saveSchedule.run();
+				command = new SaveSchedule(schedule);
 				break;
 				
 			case 'f':
 				if (schedule == null){ // cannot do this if schedule is not existing
 					break;
 				}
-				CliCommand newReportToFile = new NewReportToFile(schedule);
-				newReportToFile.run();
+				command = new NewReportToFile(schedule);
 				break;
 				
 			case 'n':
-				CliCommand newSchedule = new NewSchedule(schedule);
-				newSchedule.run();
+				this.schedule = new Schedule();
+				command = new NewSchedule(schedule);
 				break;
 				
 			case 'o':
-				CliCommand openSchedule = new OpenSchedule(schedule);
-				openSchedule.run();
+				command = new OpenSchedule(schedule);
 				break;
 				
 			case 'q':
 				System.exit(0);
 				break;
-
+				
 			default:
 				System.out.println("Don't know what that command is");
 				break;
 			
 			}
+			if( command != null ) {
+				command.run();
+			}
 		} while (true);
 
 	}
 
-	private static void printCommands() {
+	private void printCommands() {
 		System.out.println("Commands");
 		System.out.println("--------");
 		System.out.println("[N]ew schedule");
