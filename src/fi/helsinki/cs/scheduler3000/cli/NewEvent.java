@@ -6,8 +6,6 @@ import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
 
 public class NewEvent extends CliCommand {
 	
-	private Schedule schedule;
-	
 	NewEvent(Schedule schedule) {
 		this.schedule = schedule;
 	}
@@ -18,7 +16,6 @@ public class NewEvent extends CliCommand {
 	
 	private void newEventDialog() {
 		String startTime = null, endTime = null, location = null, title = null, eventDayTemp;
-		Event event = null;
 		Day eventDay = null;
 
 		do {
@@ -58,7 +55,6 @@ public class NewEvent extends CliCommand {
 				if ( eventDay != null){
 					continue;
 				}
-				event = new Event(startTime, endTime, title, location);
 				break; // success, get out of the do-while
 
 			} catch (IllegalArgumentException e) {
@@ -72,7 +68,7 @@ public class NewEvent extends CliCommand {
 		System.out.print("Adding event to schedule...");
 
 		try {
-			schedule.addEvent(eventDay, event);
+			this.execute(eventDay, title, location, startTime, endTime);
 		} catch (IllegalArgumentException e) {
 			System.out.println("Something went wrong:");
 			System.out.println(e.getMessage());
@@ -83,6 +79,11 @@ public class NewEvent extends CliCommand {
 
 		System.out.println("ok!");
 
+	}
+	
+	private void execute(Day day, String title, String location, String startTime, String endTime) {
+		Event event = new Event(startTime, endTime, title, location);
+		schedule.addEvent(day, event);
 	}
 
 }
