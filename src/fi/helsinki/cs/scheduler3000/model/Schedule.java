@@ -71,7 +71,8 @@ public class Schedule implements Serializable {
 	}
     
     // OTHER
-	public void addEvent(Day eventDay, Event event) {
+	public void addEvent(Event event) {
+		Weekday.Day eventDay = event.getDay();
 		if (!this.schedule.containsKey(eventDay)){ // if adding an event to non-existent date
 			throw new IllegalArgumentException("No such date in the schedule");
 		}

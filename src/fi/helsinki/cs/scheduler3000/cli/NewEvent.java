@@ -84,7 +84,7 @@ public class NewEvent extends CliCommand {
 	
 	private void execute(Day day, String title, String location, int startTime, int endTime) {
 		Event event = new Event(day, title, location, startTime, endTime);
-		schedule.addEvent(day, event);
+		schedule.addEvent(event);
 	}
 
 }
