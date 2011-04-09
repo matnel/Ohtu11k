@@ -6,7 +6,7 @@ import fi.helsinki.cs.scheduler3000.model.Schedule;
 
 public class CliCommand {
 
-	static void run() {
+	void run() {
 		
 	}
 	
