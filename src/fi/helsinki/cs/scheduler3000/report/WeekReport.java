@@ -59,7 +59,7 @@ public class WeekReport extends Report {
 					  entry = event.getLocation()+"\t";
 					}
 					
-					for( int k = 0; i < Event.VALID_TIMES.length; k++ ) {
+					for( int k = 0; k < Event.VALID_TIMES.length; k++ ) {
 						int thisTime = Event.VALID_TIMES[k];
 						if( event.getStartTime() == thisTime) {
 							res[i][k+1] = entry;
