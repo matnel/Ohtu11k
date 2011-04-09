@@ -96,41 +96,9 @@ public class Cli {
 
 	}
 	
-	private static HashMap<Integer, Weekday.Day> intToDays = new HashMap<Integer, Weekday.Day>();
-	private static HashMap<Day, Integer> daysToInt = new HashMap<Day, Integer>();
-	
-	static {
-		intToDays.put( new Integer(1) , Weekday.Day.MON );
-		intToDays.put( new Integer(2) , Weekday.Day.TUE );
-		intToDays.put( new Integer(3) , Weekday.Day.WED );
-		intToDays.put( new Integer(4) , Weekday.Day.THU );
-		intToDays.put( new Integer(5) , Weekday.Day.FRI );
-		intToDays.put( new Integer(6) , Weekday.Day.SAT );
-		intToDays.put( new Integer(7) , Weekday.Day.SUN );
-		
-		// fill the other way HashMap
-		for( Entry<Integer, Day> day : intToDays.entrySet() ) {
-			daysToInt.put( day.getValue() , day.getKey() );
-		}
-	}
-	
-	private static Weekday.Day getDay(String in){
-		Weekday.Day day = null;
-		
-		try {
-			int dayInt = Integer.parseInt(in);
-			day = intToDays.get(dayInt);
-			// validate inut here
-		} catch (NumberFormatException e) {	
-			System.out.println("Sorry, cannot parse \""+in+"\"");
-		}
-		
-		return day;
-	}
-
 	private static boolean checkDate(String in, Schedule schedule) {
 		Weekday.Day day = null;
-		day = getDay(in);
+		day = Helpers.getDay(in);
 		// check if the date is valid at all
 		if( day == null) {
 			return false;
@@ -189,7 +157,7 @@ public class Cli {
 			location = input.nextLine();
 
 			try {
-				eventDay = getDay(eventDayTemp);
+				eventDay = Helpers.getDay(eventDayTemp);
 				if ( eventDay != null){
 					continue;
 				}
@@ -222,7 +190,7 @@ public class Cli {
 
 	private static void newScheduleDialog() {
 		String in = null;
-		HashSet<Integer> dates = new HashSet<Integer>();
+		ArrayList<Day> dates = new ArrayList<Day>();
 
 		System.out.println("Enter the period this schedule is for:");
 		printPrompt();
@@ -234,7 +202,7 @@ public class Cli {
 
 		do {
 			printDates();
-			printSelection(dates);
+			Helpers.printSelection(dates);
 			printPrompt();
 			in = input.nextLine().trim();
 
@@ -242,27 +210,16 @@ public class Cli {
 				break;
 			}
 			else {
-				try {
-					int value = Integer.parseInt(in.trim());
-					if( intToDays.containsKey(value) ) {
-						dates.add(value);
-					}
-				} catch(NumberFormatException e){
-					System.out.println("Invalid input " + in);
+				Day day = Helpers.getDay(in.trim());
+				if( day != null ) {
+					dates.add(day);
 				}
 			}
 
 		} while (true);
 
 		System.out.print("Creating schedule...");
-
-		ArrayList<Day> days = new ArrayList<Day>();
-		for(Integer d : dates){
-			// XXX ugly!
-			days.add(getDay("" + d));
-		}
-
-		schedule = new Schedule(days, period);
+		schedule = new Schedule(dates, period);
 
 		System.out.println("ok!");
 
@@ -344,7 +301,7 @@ public class Cli {
 
 	private static void printDates() {
 		System.out.print("Dates are: ");
-		for (Entry<Integer, Day> day : intToDays.entrySet()){
+		for (Entry<Integer, Day> day : Helpers.intToDays.entrySet()){
 			System.out.print(day.getKey());
 			System.out.print(" - ");
 			System.out.print(day.getValue());
@@ -356,7 +313,7 @@ public class Cli {
 	private static void printDates(Schedule schedule) {
 		System.out.print("Dates are: ");
 		for (Day d : schedule.getSchedule().keySet()){
-			System.out.print( daysToInt.get(d) );
+			System.out.print( Helpers.daysToInt.get(d) );
 			System.out.print(" - ");
 			System.out.print(d);
 			System.out.print(" ");
@@ -391,7 +348,7 @@ public class Cli {
 				printDates();
 				printPrompt();
 				in = input.nextLine();
-				Day day = getDay(in);
+				Day day = Helpers.getDay(in);
 				if (day == null){
 					System.out.println("Unvalid date");
 					break;
@@ -420,7 +377,7 @@ public class Cli {
 						System.out.println("Unvalid date");
 					}
 					else {
-						days.add( getDay(in) );
+						days.add( Helpers.getDay(in) );
 					}
 				}
 
@@ -471,18 +428,6 @@ public class Cli {
 			System.out.println(printReportDialog());
 		}
 		
-	}
-	
-	// XXX modify to take in Days
-	private static void printSelection(HashSet<Integer> dates) {
-		if (dates.size() > 0){
-			System.out.print("You have selected: ");
-			for (Integer d : dates){
-				System.out.print( intToDays.get(d) );
-				System.out.print(" ");
-			}
-			System.out.println();
-		}
 	}
 
 	private static Character sanitize(String rawInput){
