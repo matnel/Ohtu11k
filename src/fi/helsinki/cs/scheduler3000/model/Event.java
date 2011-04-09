@@ -15,19 +15,11 @@ public class Event {
 	private int startTime;
 	private int endTime;
 	
-	public Event(Weekday.Day day, int startTime, int endTime){
-		this.day = day;
-		this.startTime = startTime;
-		this.endTime = endTime;
-	}
-	
-	public Event(Weekday.Day day, String title, int startTime, int endTime){
-		this(day, startTime, endTime);
-		this.setTitle(title);
-	}
-	
 	public Event(Weekday.Day day, String title, String location, int startTime, int endTime){
-		this(day, title, startTime, endTime);
+		this.setDay(day);
+		this.setStartTime(startTime);
+		this.setEndTime(endTime);
+		this.setTitle(title);
 		this.setLocation(location);
 	}
 	
