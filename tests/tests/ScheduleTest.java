@@ -11,7 +11,9 @@ import junit.framework.TestCase;
 import org.junit.*;
 
 import fi.helsinki.cs.scheduler3000.*;
-import fi.helsinki.cs.scheduler3000.Weekday.Day;
+import fi.helsinki.cs.scheduler3000.model.Event;
+import fi.helsinki.cs.scheduler3000.model.Schedule;
+import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
 
 public class ScheduleTest extends TestCase {
 

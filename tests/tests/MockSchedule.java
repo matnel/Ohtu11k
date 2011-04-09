@@ -10,7 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fi.helsinki.cs.scheduler3000.*;
-import fi.helsinki.cs.scheduler3000.Weekday.Day;
+import fi.helsinki.cs.scheduler3000.model.Event;
+import fi.helsinki.cs.scheduler3000.model.Schedule;
+import fi.helsinki.cs.scheduler3000.model.Weekday;
+import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
 
 public class MockSchedule extends Schedule {
 

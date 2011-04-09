@@ -9,6 +9,7 @@ import junit.framework.TestCase;
 import org.junit.* ;
 
 import fi.helsinki.cs.scheduler3000.*;
+import fi.helsinki.cs.scheduler3000.model.Event;
 
 public class EventTest extends TestCase{
 	
