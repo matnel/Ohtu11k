@@ -71,5 +71,8 @@ public class Event {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	// valid times saved here. should be fixed?
+	public static final int[] VALID_TIMES = {8,10,12,14,16,18};
 
 }
