@@ -29,8 +29,8 @@ public class WeekReport extends Report {
 
 			res[0][0] = "\t";
 			
-			for (int i = 1, j = 0; j < Event.VALID_START_TIMES.length; i++, j++){
-				res[0][i] = Event.VALID_START_TIMES[j] + "\t";
+			for (int i = 1, j = 0; j < Event.VALID_TIMES.length ; i++, j++){
+				res[0][i] = Event.VALID_TIMES[j] + "\t";
 			}	
 
 			int i = 1;
@@ -59,12 +59,13 @@ public class WeekReport extends Report {
 					  entry = event.getLocation()+"\t";
 					}
 					
-					if (event.getStartTime().equals("08"))     { res[i][1] = entry; } 
-					else if(event.getStartTime().equals("10")) { res[i][2] = entry; } 
-					else if(event.getStartTime().equals("12")) { res[i][3] = entry;	} 
-					else if(event.getStartTime().equals("14")) { res[i][4] = entry; } 
-					else if(event.getStartTime().equals("16")) { res[i][5] = entry; } 
-					else if(event.getStartTime().equals("18")) { res[i][6] = entry; }
+					for( int k = 0; i < Event.VALID_TIMES.length; k++ ) {
+						int thisTime = Event.VALID_TIMES[k];
+						if( event.getStartTime() == thisTime) {
+							res[i][k+1] = entry;
+						}
+						
+					}
 				
 					// fill up with empties
 					for (int x = 1; x < 7; x++) {
