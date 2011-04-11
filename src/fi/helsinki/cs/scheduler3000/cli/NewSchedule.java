@@ -55,7 +55,7 @@ public class NewSchedule extends CliCommand {
 	
 	private void excecute(String period, ArrayList<Day> dates) {
 		this.schedule.setPeriod(period);
-		this.schedule.setSchedule(dates);
+		this.schedule.setDays(dates);
 	} 
 
 	

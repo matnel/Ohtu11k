@@ -26,19 +26,19 @@ public class Schedule implements Serializable {
     }
     
     public Schedule(ArrayList<Day> week){
-        this.setSchedule(week);
+        this.setDays(week);
         this.period = null;
     }
     
     public Schedule(ArrayList<Day> week, String period){
-    	this.setSchedule(week);
+    	this.setDays(week);
     	this.period = period;
     }
 
     // GETTERS AND SETTERS
     
  
-    public void setSchedule(ArrayList<Day> newSchedule){
+    public void setDays(ArrayList<Day> newSchedule){
     	if (this.schedule == null){
     		this.schedule = new HashMap<Day, ArrayList<Event>>();
     	}
@@ -49,7 +49,7 @@ public class Schedule implements Serializable {
         }
     }
     
-    public void setSchedule(HashMap<Day, ArrayList<Event>> newSchedule){
+    private void setSchedule(HashMap<Day, ArrayList<Event>> newSchedule){
     	this.schedule = newSchedule;
     }
     
