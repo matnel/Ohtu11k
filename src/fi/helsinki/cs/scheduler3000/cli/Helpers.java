@@ -67,7 +67,7 @@ public class Helpers {
 
 	static void printDates(Schedule schedule) {
 		System.out.print("Dates are: ");
-		for (Day d : schedule.getSchedule().keySet()){
+		for (Day d : schedule.getDays() ){
 			System.out.print( daysToInt.get(d) );
 			System.out.print(" - ");
 			System.out.print(d);

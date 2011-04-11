@@ -7,6 +7,7 @@ package fi.helsinki.cs.scheduler3000.report;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import fi.helsinki.cs.scheduler3000.model.Event;
@@ -41,7 +42,7 @@ public class WeekReport extends Report {
 			
 			i = 1;
 			for (Day d : days){		
-				ArrayList<Event> events = this.schedule.getSchedule().get(d); 
+				Collection<Event> events = this.schedule.getEventsOn(d); 
 				
 				if (events == null){
 					return null;

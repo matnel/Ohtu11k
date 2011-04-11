@@ -87,7 +87,7 @@ public class NewReport extends CliCommand {
 					else {
 						// validate date
 						Day dayT = Helpers.getDay(in);
-						if( dayT == null || schedule.getSchedule().containsKey(dayT)) {
+						if( dayT == null || schedule.getDays().contains( (dayT) ) ) {
 							System.out.println("Unvalid date");
 						} else {
 							days.add( Helpers.getDay(in) );

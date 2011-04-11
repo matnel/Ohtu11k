@@ -26,10 +26,10 @@ public class Report {
 	public String toString(){
 		String res = "";
 		
-		for (Weekday.Day day : schedule.getSchedule().keySet()){
+		for (Weekday.Day day : schedule.getDays() ){
 			res += day + ":\n";
 			res += "----\n";
-			for (Event event : schedule.getSchedule().get(day)){
+			for (Event event : schedule.getEventsOn(day) ){
 				res += event.getTitle();
 				res += "\nat " + event.getStartTime() + "-" + event.getEndTime();
 				res += "\nin " + event.getLocation();
