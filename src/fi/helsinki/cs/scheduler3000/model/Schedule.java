@@ -63,7 +63,7 @@ public class Schedule implements Serializable {
 	}
     
     public Collection<Event> getEventsOn(Day day) {
-    	if( this.schedule.containsKey(day) ) {
+    	if( !this.schedule.containsKey(day) ) {
     		throw new IllegalArgumentException("Date not in this schedule");
     	}
     	return this.schedule.get(day);
