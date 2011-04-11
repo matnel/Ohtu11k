@@ -56,10 +56,10 @@ public class ScheduleTest extends TestCase {
 		
 		assertNotNull(schedule);
 		
-		assertEquals(week.size(), schedule.getSchedule().size());
+		assertEquals(week.size(), schedule.getDays().size());
 		
 		for (Day d : week){
-			assertNotNull(schedule.getSchedule().get(d));
+			assertNotNull(schedule.getEventsOn(d));
 		}
 		schedule = null;
 		
@@ -71,7 +71,7 @@ public class ScheduleTest extends TestCase {
 		assertNotNull(schedule);
 		
 		for (Day d : week){
-			assertNotNull(schedule.getSchedule().get(d));
+			assertNotNull(schedule.getEventsOn(d));
 		}
 		
 		assertNotNull(schedule.getPeriod());
@@ -83,11 +83,12 @@ public class ScheduleTest extends TestCase {
 	public void testAllSetSchedules(){
 		schedule = new Schedule(week, "first period");
 
-		schedule.setSchedule(map);
-		assertEquals(map, schedule.getSchedule());
+		schedule.addEvent( events.get(0) );
 		
 		Schedule anotherSchedule = new Schedule(week);
 		anotherSchedule.setSchedule(schedule);
+		
+		assertEquals( 1 , schedule.getEventsOn( events.get(0).getDay()  ).size() );
 		
 	}
 	
@@ -109,8 +110,8 @@ public class ScheduleTest extends TestCase {
 		Event e = new Event( Day.FRI, "testAddEvent", "testAddEventLocation", 16, 20);
 		schedule.addEvent(e);
 		
-		assertEquals(1, schedule.getSchedule().get(Day.FRI).size());
-		assertEquals(e, schedule.getSchedule().get(Day.FRI).get(0));
+		assertEquals(1, schedule.getEventsOn(Day.FRI).size());
+		assertEquals(e, schedule.getEventsOn(Day.FRI).toArray()[0] );
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
