@@ -7,6 +7,7 @@ package fi.helsinki.cs.scheduler3000.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,7 +20,6 @@ public class Schedule implements Serializable {
 
     // CONSTRUCTORS
     
-    // this constructor is solely for mock objects to use, hence protected
     public Schedule(){ 
     	this.period = null;
     	this.schedule = null;
@@ -58,9 +58,20 @@ public class Schedule implements Serializable {
 		this.period = newSchedule.getPeriod();
 	}
 
-    public HashMap<Day, ArrayList<Event>> getSchedule(){
+    private HashMap<Day, ArrayList<Event>> getSchedule(){
 		return this.schedule; 
 	}
+    
+    public Collection<Event> getEventsOn(Day day) {
+    	if( this.schedule.containsKey(day) ) {
+    		throw new IllegalArgumentException("Date not in this schedule");
+    	}
+    	return this.schedule.get(day);
+    }
+    
+    public Collection<Day> getDays() {
+    	return this.schedule.keySet();
+    }
 
 	public String getPeriod() {
 		return period;
