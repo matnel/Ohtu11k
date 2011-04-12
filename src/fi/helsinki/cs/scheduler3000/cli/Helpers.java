@@ -46,6 +46,14 @@ public class Helpers {
 		return day;
 	}
 	
+	static Weekday.Day getDay(String in, Collection<Day> possibilities ) throws Exception {
+		Day day = getDay(in);
+		if( ! possibilities.contains(day) ) {
+			throw new Exception("Invalid number given");
+		}
+		return day;
+	}
+	
 	static void printSelection(Collection<Day> dates) {
 		if (dates.size() > 0){
 			System.out.print("You have selected: ");
