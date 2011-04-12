@@ -54,50 +54,17 @@ public class NewReport extends CliCommand {
 			switch (command) {
 
 			case 'd':
-
-				System.out.println("Which day you want to see your schedule for?");
-				Helpers.printDates();
-				printPrompt();
-				in = input.nextLine();
-				Day day = Helpers.getDay(in);
-				if (day == null){
-					System.out.println("Invalid date");
-					break;
-				}
-				report = ReportFactory.makeReport(ReportFactory.ReportType.DAY, schedule, getOptions("day", day));
+				this.report = dayReportDialog();
+				return this.report;
 
 			case 'f':
-				report = ReportFactory.makeReport(ReportFactory.ReportType.FULL, schedule, null); // full report doesen't need options
-
+				this.report = fullReportDialog();
+				return this.report;
+				
 			case 'w':
-				ArrayList<Day> days = new ArrayList<Day>();
-
-				System.out.println("Which days you want to include in this report? You can end with \""+endCommand+"\"");
-				System.out.println("One at the time, please");
-
-				while (true){
-					// print only available dates
-					Helpers.printDates(schedule);
-					printPrompt();
-
-					in = input.nextLine();
-					if (in.equals(endCommand)) {
-						break;
-					}
-					else {
-						// validate date
-						Day dayT = Helpers.getDay(in);
-						if( dayT == null || schedule.getDays().contains( (dayT) ) ) {
-							System.out.println("Unvalid date");
-						} else {
-							days.add( Helpers.getDay(in) );
-						}
-					}
-				}
-
-				report = ReportFactory.makeReport(ReportFactory.ReportType.WEEK, schedule, getOptions("days", days));
-
-
+				this.report = weekReportDialog();
+				return this.report;
+				
 			case 'n':
 				System.out.println("Returning back to main menu");
 				return null;
@@ -108,6 +75,65 @@ public class NewReport extends CliCommand {
 			}
 
 		}
+	}
+	
+	private Report fullReportDialog() {
+		return ReportFactory.makeReport(ReportFactory.ReportType.FULL, schedule, null); // full report doesen't need options
+	}
+	
+	private Report dayReportDialog() {
+	
+		while( true ) {
+			System.out.println("Which day you want to see your schedule for?");
+			Helpers.printSelection( this.schedule.getDays() );
+			printPrompt();
+			
+			String in = input.nextLine();
+			
+			try {
+				Day day = Helpers.getDay(in , this.schedule.getDays() );
+				
+				return ReportFactory.makeReport(ReportFactory.ReportType.DAY, schedule, getOptions("day", day));
+				
+			} catch (Exception e) {
+				System.out.println("Invalid date given");
+			}
+			
+		}
+
+	}
+	
+	private Report weekReportDialog() {
+		
+		ArrayList<Day> days = new ArrayList<Day>();
+
+		boolean done = false;
+		
+		while ( !done ){
+			
+			System.out.println("Which days you want to include in this report? You can end with \""+endCommand+"\"");
+			System.out.println("One at the time, please");
+			
+			// print only available dates
+			Helpers.printDates(schedule);
+			printPrompt();
+
+			String in = input.nextLine();
+			
+			if ( in.equals(endCommand) ) {
+				done = true;
+			}
+			
+			try {
+				Day day = Helpers.getDay(in, this.schedule.getDays() );
+				days.add( Helpers.getDay(in) );
+			} catch( Exception e) {
+				System.out.println("Mistake detected. Try again");
+			}
+		}
+
+		return ReportFactory.makeReport(ReportFactory.ReportType.WEEK, schedule, getOptions("days", days));
+		
 	}
 
 }
