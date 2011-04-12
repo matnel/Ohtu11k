@@ -32,7 +32,11 @@ public class NewEvent extends CliCommand {
 				return;
 			}
 			
-			eventDay = Helpers.getDay(eventDayTemp);
+			try {
+				eventDay = Helpers.getDay(eventDayTemp);
+			} catch (Exception e) {
+				System.out.println("Invalid date. Try again, please");
+			}
 		}
 
 		while( !Event.isValidStartTime( startTime ) ) {
