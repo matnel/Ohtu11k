@@ -1,5 +1,9 @@
 package fi.helsinki.cs.scheduler3000.model;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+
 /**
  * @author Team TA's
  */
@@ -66,5 +70,13 @@ public class Event {
 	
 	// valid times saved here. should be fixed?
 	public static final int[] VALID_TIMES = {8,10,12,14,16,18};
+	
+	public static boolean isValidStartTime(int time) {
+		return Arrays.binarySearch( VALID_TIMES , time ) > 0;
+	}
+	
+	public static boolean isValidEndTime(int startTime, int endTime ) {
+		return endTime > startTime;
+	}
 
 }
