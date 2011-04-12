@@ -1,14 +1,18 @@
 package fi.helsinki.cs.scheduler3000.io;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import fi.helsinki.cs.scheduler3000.model.Schedule;
+import com.csvreader.CsvWriter;
+
+import fi.helsinki.cs.scheduler3000.model.*;
+import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
 
 public class ScheduleWriter {
 
@@ -44,7 +48,31 @@ public class ScheduleWriter {
 			}
 		}
 		if (format == FORMAT.CSV) {
-			// TODO: implement
+			
+			try {
+				FileWriter fos = new FileWriter(this.file);
+			
+				CsvWriter writer = new CsvWriter(fos, ',' );
+				ArrayList<Event> events = new ArrayList<Event>();
+				// Collect all events
+				for(Day day : schedule.getDays() ) {
+					Collection<Event> e = schedule.getEventsOn(day);
+					events.addAll(e);
+				}
+				for( Event e : events) {
+					String[] headers = new String[5];
+					headers[0] = e.getDay().getName();
+					headers[1] = e.getTitle();
+					headers[2] = e.getLocation();
+					headers[3] = "" + e.getStartTime();
+					headers[4] = "" + e.getEndTime();
+					writer.writeRecord(headers);
+				}
+				writer.close();
+			
+			} catch (IOException e1) {
+			}
+			
 		}
 
 		return false;
