@@ -24,7 +24,7 @@ public class SaveScheduleCsv extends CliCommand {
 
 	private void saveScheduleDialog() {
 		System.out.println("Give name of the file to open");
-		System.out.println("Notice that file will be saved with .csv-extension, eg. \"myfile\" will be \"myfile.dat\" ");
+		System.out.println("Notice that file will be saved with .csv-extension, eg. \"myfile\" will be \"myfile.csv\" ");
 		printPrompt();
 		String filename = input.nextLine().trim() + ".csv";
 		while (true){
