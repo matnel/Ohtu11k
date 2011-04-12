@@ -62,6 +62,13 @@ public class Cli extends CliCommand {
 				command = new SaveSchedule(schedule);
 				break;
 				
+			case 'c':
+				if (schedule == null) { // cannot do this if schedule is not existing
+					break;
+				}
+				command = new SaveScheduleCsv(schedule);
+				break;
+				
 			case 'f':
 				if (schedule == null){ // cannot do this if schedule is not existing
 					break;
@@ -104,6 +111,7 @@ public class Cli extends CliCommand {
 			System.out.println("[S]ave schedule to file");
 			System.out.println("[P]rint a report on screen");
 			System.out.println("Print a report to [F]ile");
+			System.out.println("Export to [C]SV");
 		}
 		System.out.println("[Q]uit");
 	}
