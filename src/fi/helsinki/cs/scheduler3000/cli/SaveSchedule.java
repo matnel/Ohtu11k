@@ -13,9 +13,11 @@ import fi.helsinki.cs.scheduler3000.model.Schedule;
 public class SaveSchedule extends CliCommand {
 
 	private Schedule schedule;
+	private ScheduleWriter.FORMAT format;
 	
-	public SaveSchedule(Schedule schedule) {
+	public SaveSchedule(Schedule schedule, ScheduleWriter.FORMAT format) {
 		this.schedule = schedule;
+		this.format = format;
 	}
 	
 	void run() {
@@ -23,29 +25,28 @@ public class SaveSchedule extends CliCommand {
 	}
 
 	private void saveScheduleDialog() {
-		System.out.println("Give name of the file to open");
-		System.out.println("Notice that file will be saved with .dat-extension, eg. \"myfile\" will be \"myfile.dat\" ");
-		printPrompt();
-		String filename = input.nextLine().trim() + ".dat";
-		while (true){
+		boolean done = false;
+		
+		String filename = "";
+		while( !done ) {
+			filename = getFilename( this.format.toString() );
 			ScheduleWriter writer =
-				new ScheduleWriter(schedule, new File(filename), FORMAT.DAT );
-			if ( writer.write() ){
-				break;
-			}
-			else {
-				System.out.println("Please enter the name of the file again");
-				System.out.println("You can exit with " + endCommand);
-				filename = input.nextLine().trim() + ".dat";
-				
-				if (filename.trim().toLowerCase().equals(endCommand)) {
-					return;
-				}
-				
-
-			}
+				new ScheduleWriter(schedule, new File(filename), this.format );
+			done = writer.write();
 		}
+		
 		System.out.println("Schedule saved as \"" + filename + "\"");
-	}	
+	}
+	
+	private String getFilename(String extension) {
+		System.out.println("Give name of the file to open");
+		System.out.println("Notice that file will be saved with ." + extension + "-extension, eg. \"myfile\" will be \"myfile." + extension + "\" ");
+		printPrompt();
+		String filename = input.nextLine().trim();
+		if( ! filename.endsWith( extension ) ) {
+			filename += "." + extension;
+		}
+		return filename;
+	}
 	
 }

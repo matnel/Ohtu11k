@@ -16,13 +16,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
-import fi.helsinki.cs.scheduler3000.model.Event;
-import fi.helsinki.cs.scheduler3000.model.Schedule;
-import fi.helsinki.cs.scheduler3000.model.Weekday;
-import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
-import fi.helsinki.cs.scheduler3000.report.Report;
-import fi.helsinki.cs.scheduler3000.report.ReportFactory;
-import fi.helsinki.cs.scheduler3000.report.ReportFactory.ReportType;
+import fi.helsinki.cs.scheduler3000.model.*;
+import fi.helsinki.cs.scheduler3000.report.*;
+import fi.helsinki.cs.scheduler3000.io.*;
 
 public class Cli extends CliCommand {
 	
@@ -59,14 +55,14 @@ public class Cli extends CliCommand {
 				if (schedule == null) { // cannot do this if schedule is not existing
 					break;
 				}
-				command = new SaveSchedule(schedule);
+				command = new SaveSchedule(schedule, ScheduleWriter.FORMAT.DAT );
 				break;
 				
 			case 'c':
 				if (schedule == null) { // cannot do this if schedule is not existing
 					break;
 				}
-				command = new SaveScheduleCsv(schedule);
+				command = new SaveSchedule(schedule, ScheduleWriter.FORMAT.CSV );
 				break;
 				
 			case 'f':
