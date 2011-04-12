@@ -15,13 +15,14 @@ public class NewEvent extends CliCommand {
 	}
 	
 	private void newEventDialog() {
-		int startTime, endTime;
-		String location = null, title = null, eventDayTemp;
+		int startTime = -1;
+		int endTime = -1;
+		String location, title, eventDayTemp;
 		Day eventDay = null;
 
-		do {
-			System.out.println("");
-
+		// validate user input in place
+		while( eventDay == null ) {
+			
 			System.out.println("Which day is the event?");
 			Helpers.printDates();
 			printPrompt();
@@ -30,52 +31,37 @@ public class NewEvent extends CliCommand {
 			if (eventDayTemp.equals(endCommand)){
 				return;
 			}
+			
+			eventDay = Helpers.getDay(eventDayTemp);
+		}
 
+		while( !Event.isValidStartTime( startTime ) ) {
 			System.out.println("What is the start time?");
 			printPrompt();
 			startTime = Integer.parseInt( input.nextLine() );
+		}
+		
+		while( !Event.isValidEndTime( startTime, endTime ) ) {
 
 			System.out.println("What is the end time?");
 			printPrompt();
 			endTime = Integer.parseInt( input.nextLine() );
+		}
 
-			System.out.println("What this event should be named as?");
-			System.out.println("(just press enter to skip this)");
-			printPrompt();
-			title = input.nextLine();
+		System.out.println("What this event should be named as?");
+		System.out.println("(just press enter to skip this)");
+		printPrompt();
+		title = input.nextLine();
 
-			System.out.println("Where this event is held?");
-			System.out.println("(just press enter to skip this)");
-			printPrompt();
-			location = input.nextLine();
+		System.out.println("Where this event is held?");
+		System.out.println("(just press enter to skip this)");
+		printPrompt();
+		location = input.nextLine();
 
-			try {
-				eventDay = Helpers.getDay(eventDayTemp);
-				if ( eventDay == null){
-					continue;
-				}
-				break; // success, get out of the do-while
-
-			} catch (IllegalArgumentException e) {
-
-				System.out.println("Sorry, but some mistakes were made:");
-				System.out.println(e.getMessage());
-
-			}
-		} while (true);
 
 		System.out.print("Adding event to schedule...");
 
-		try {
-			this.execute(eventDay, title, location, startTime, endTime);
-		} catch (IllegalArgumentException e) {
-			System.out.println("Something went wrong:");
-			System.out.println(e.getMessage());
-			System.out.println("Sorry, but once more");
-			newEventDialog();
-			return; // this is for when newEventDialog finally succeedes, we don't print out the last ok!'s
-		}
-
+		this.execute(eventDay, title, location, startTime, endTime);
 		System.out.println("ok!");
 
 	}
