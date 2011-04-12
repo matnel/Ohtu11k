@@ -33,11 +33,11 @@ public class NewEvent extends CliCommand {
 
 			System.out.println("What is the start time?");
 			printPrompt();
-			startTime = input.nextInt();
+			startTime = Integer.parseInt( input.nextLine() );
 
 			System.out.println("What is the end time?");
 			printPrompt();
-			endTime = input.nextInt();
+			endTime = Integer.parseInt( input.nextLine() );
 
 			System.out.println("What this event should be named as?");
 			System.out.println("(just press enter to skip this)");
@@ -51,7 +51,7 @@ public class NewEvent extends CliCommand {
 
 			try {
 				eventDay = Helpers.getDay(eventDayTemp);
-				if ( eventDay != null){
+				if ( eventDay == null){
 					continue;
 				}
 				break; // success, get out of the do-while
