@@ -89,6 +89,16 @@ public class Schedule implements Serializable {
 		}
 		this.schedule.get(eventDay).add(event);
 	}
+	
+	public Collection<Event> allEvents() {
+		ArrayList<Event> events = new ArrayList<Event>();
+		// Collect all events
+		for(Day day : this.getDays() ) {
+			Collection<Event> e = this.getEventsOn(day);
+			events.addAll(e);
+		}
+		return events;
+	}
 
 
 }

@@ -53,13 +53,7 @@ public class ScheduleWriter {
 				FileWriter fos = new FileWriter(this.file);
 			
 				CsvWriter writer = new CsvWriter(fos, ',' );
-				ArrayList<Event> events = new ArrayList<Event>();
-				// Collect all events
-				for(Day day : schedule.getDays() ) {
-					Collection<Event> e = schedule.getEventsOn(day);
-					events.addAll(e);
-				}
-				for( Event e : events) {
+				for( Event e : schedule.allEvents() ) {
 					String[] headers = new String[5];
 					headers[0] = e.getDay().getName();
 					headers[1] = e.getTitle();
