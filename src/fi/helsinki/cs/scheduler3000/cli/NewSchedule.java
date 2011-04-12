@@ -27,7 +27,7 @@ public class NewSchedule extends CliCommand {
 		System.out.println("Stop giving the dates by entering \""+endCommand+"\"");
 		System.out.println("One at a time, please");
 
-		while( in.toLowerCase().equals(endCommand) ) {
+		while( !in.toLowerCase().equals(endCommand) ) {
 		
 		
 			Helpers.printDates();
