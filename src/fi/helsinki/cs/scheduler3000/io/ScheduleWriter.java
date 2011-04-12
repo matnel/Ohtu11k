@@ -69,6 +69,7 @@ public class ScheduleWriter {
 					writer.writeRecord(headers);
 				}
 				writer.close();
+				return true;
 			
 			} catch (IOException e1) {
 			}
