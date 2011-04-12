@@ -27,30 +27,25 @@ public class OpenSchedule extends CliCommand {
 
 	private void openScheduleDialog() {
 		System.out.println("Give name of the file to be opened");
-		printPrompt();
-		String filename = input.nextLine().trim();
-		while (true) {
+		boolean done = false;
+		
+		while ( !done ) {
 			
-			if (!filename.endsWith(".dat")){
+			printPrompt();
+			String filename = input.nextLine().trim();
+			
+			if ( !filename.endsWith(".dat")){
 				filename += ".dat";
 			}
 			
-			ScheduleReader scheduleReader = 
-				new ScheduleReader(this.schedule, new File(filename), FORMAT.DAT );
+			ScheduleReader scheduleReader = new ScheduleReader(this.schedule, new File(filename), FORMAT.DAT );
 			
-			if ( scheduleReader.read() ){
-				break;
+			done = scheduleReader.read();
+			
+			if( !done ) {
+				System.out.println("Something gone bad.");
 			}
-			else {
-				System.out.println("Please enter the name of the file again");
-				System.out.println("You can exit with " + endCommand);
-				
-				filename = input.nextLine().trim();
-				if (filename.equals(endCommand)){
-					return;
-				}
-				
-			}
+			
 		}
 		
 	}
