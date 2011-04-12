@@ -28,7 +28,7 @@ public class Helpers {
 		}
 	}
 
-	static Weekday.Day getDay(String in){
+	static Weekday.Day getDay(String in) throws Exception {
 		Weekday.Day day = null;
 		
 		try {
@@ -36,13 +36,16 @@ public class Helpers {
 			day = intToDays.get(dayInt);
 			// validate inut here
 		} catch (NumberFormatException e) {	
-			System.out.println("Sorry, cannot parse \""+in+"\"");
+			throw new Exception("Invalid number format");
+		}
+		
+		if( day == null ) {
+			throw new Exception("Invalid number given");
 		}
 		
 		return day;
 	}
 	
-	// XXX modify to take in Days
 	static void printSelection(Collection<Day> dates) {
 		if (dates.size() > 0){
 			System.out.print("You have selected: ");
