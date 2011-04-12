@@ -27,8 +27,6 @@ public class NewEvent extends CliCommand {
 			printPrompt();
 			eventDayTemp =  input.nextLine();
 
-			System.err.println( eventDayTemp );
-			System.err.println( endCommand );
 			if (eventDayTemp.equals(endCommand)){
 				return;
 			}

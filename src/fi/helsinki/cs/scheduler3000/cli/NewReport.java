@@ -61,7 +61,7 @@ public class NewReport extends CliCommand {
 				in = input.nextLine();
 				Day day = Helpers.getDay(in);
 				if (day == null){
-					System.out.println("Unvalid date");
+					System.out.println("Invalid date");
 					break;
 				}
 				report = ReportFactory.makeReport(ReportFactory.ReportType.DAY, schedule, getOptions("day", day));

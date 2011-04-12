@@ -1,6 +1,7 @@
 package fi.helsinki.cs.scheduler3000.cli;
 
 import java.util.Scanner;
+import java.io.IOException;
 
 import fi.helsinki.cs.scheduler3000.model.Schedule;
 
