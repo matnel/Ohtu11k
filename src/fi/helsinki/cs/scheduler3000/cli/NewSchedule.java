@@ -16,7 +16,7 @@ public class NewSchedule extends CliCommand {
 	}
 	
 	private void newScheduleDialog() {
-		String in = null;
+		String in = "";
 		ArrayList<Day> dates = new ArrayList<Day>();
 
 		System.out.println("Enter the period this schedule is for:");
@@ -27,23 +27,22 @@ public class NewSchedule extends CliCommand {
 		System.out.println("Stop giving the dates by entering \""+endCommand+"\"");
 		System.out.println("One at a time, please");
 
-		do {
+		while( in.toLowerCase().equals(endCommand) ) {
+		
+		
 			Helpers.printDates();
 			Helpers.printSelection(dates);
 			printPrompt();
 			in = input.nextLine().trim();
 
-			if (in.toLowerCase().equals(endCommand)){
-				break;
-			}
-			else {
-				Day day = Helpers.getDay(in.trim());
-				if( day != null ) {
-					dates.add(day);
-				}
+			try {
+				Day day = Helpers.getDay( in.trim() );
+				dates.add(day);
+			} catch (Exception e) {
+				System.out.println("Invalid date given");
 			}
 
-		} while (true);
+		}
 
 		System.out.print("Creating schedule...");
 
@@ -54,6 +53,7 @@ public class NewSchedule extends CliCommand {
 	}
 	
 	private void excecute(String period, ArrayList<Day> dates) {
+		// TODO: Fixme! Uusi tapahtuma on nyt luotu tuolla CLIssä -> rumaa.
 		this.schedule.setPeriod(period);
 		this.schedule.setDays(dates);
 	} 
