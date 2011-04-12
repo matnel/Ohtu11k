@@ -1,10 +1,13 @@
 package fi.helsinki.cs.scheduler3000.cli;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import fi.helsinki.cs.scheduler3000.io.ScheduleReader;
+import fi.helsinki.cs.scheduler3000.io.ScheduleReader.FORMAT;
 import fi.helsinki.cs.scheduler3000.model.Schedule;
 
 public class OpenSchedule extends CliCommand {
@@ -21,38 +24,6 @@ public class OpenSchedule extends CliCommand {
 		openScheduleDialog();
 	}
 	
-	// TODO: this should be removed to separate IO-module
-	private boolean open(String filename) {
-		
-		objectInput = null; // nullify in case something is wrong and it's open
-		
-		FileInputStream fos = null;
-		
-		try {
-			fos = new FileInputStream(filename);
-		} catch (FileNotFoundException e) {
-			System.out.println("File \"" + filename + "\" couldn't be opened");
-			return false;
-		}
-		
-		try {
-			objectInput = new ObjectInputStream(fos);
-		} catch (IOException e) {
-			System.out.println("Cannot read \"" + filename + "\" from FileInputStream");
-			return false;
-		}
-		
-		try {
-			schedule.setSchedule( (Schedule) objectInput.readObject()); // have to cast the object
-			return true;
-		} catch (IOException e) {
-			System.out.println("Cannot read \"" + filename + "\" from ObjectInputStream");
-		} catch (ClassNotFoundException e) {
-			System.out.println("Cannot find class for the object when reading \"" + filename + "\"");
-		}
-		
-		return false;
-	}
 
 	private void openScheduleDialog() {
 		System.out.println("Give name of the file to be opened");
@@ -64,7 +35,10 @@ public class OpenSchedule extends CliCommand {
 				filename += ".dat";
 			}
 			
-			if (open(filename)){
+			ScheduleReader scheduleReader = 
+				new ScheduleReader(this.schedule, new File(filename), FORMAT.DAT );
+			
+			if ( scheduleReader.read() ){
 				break;
 			}
 			else {
@@ -78,7 +52,6 @@ public class OpenSchedule extends CliCommand {
 				
 			}
 		}
-		
 		
 	}
 	
