@@ -107,9 +107,7 @@ public class NewReport extends CliCommand {
 		
 		ArrayList<Day> days = new ArrayList<Day>();
 
-		boolean done = false;
-		
-		while ( !done ){
+		while ( true ){
 			
 			System.out.println("Which days you want to include in this report? You can end with \""+endCommand+"\"");
 			System.out.println("One at the time, please");
@@ -121,7 +119,7 @@ public class NewReport extends CliCommand {
 			String in = input.nextLine();
 			
 			if ( in.equals(endCommand) ) {
-				done = true;
+				return ReportFactory.makeReport(ReportFactory.ReportType.WEEK, schedule, getOptions("days", days));
 			}
 			
 			try {
@@ -131,8 +129,6 @@ public class NewReport extends CliCommand {
 				System.out.println("Mistake detected. Try again");
 			}
 		}
-
-		return ReportFactory.makeReport(ReportFactory.ReportType.WEEK, schedule, getOptions("days", days));
 		
 	}
 
