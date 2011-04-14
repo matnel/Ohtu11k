@@ -26,53 +26,47 @@ public class WeekReport extends Report {
 		
 		if (this.options.containsKey("days")){
 			ArrayList<Weekday.Day> days = (ArrayList<Day>)this.options.get("days");			
-			String[][] res = new String[days.size() + 1][7]; // +1 for header row
+			String[][] res = new String[days.size() + 1][ Event.VALID_TIMES.length + 1]; // +1 for header row
 
-			res[0][0] = "\t";
+			// Time slots
+			res[0][0] = "";
 			
 			for (int i = 1, j = 0; j < Event.VALID_TIMES.length ; i++, j++){
-				res[0][i] = Event.VALID_TIMES[j] + "\t";
+				res[0][i] = "" + Event.VALID_TIMES[j];
 			}	
 
+			// Day-headers
 			int i = 1;
 			for (Day day : days){
-				res[i][0] = day.toString() + "\t";
+				res[i][0] = day.getName();
 				i++;
 			}
 			
+			// star from first real column
 			i = 1;
 			for (Day d : days){		
 				Collection<Event> events = this.schedule.getEventsOn(d); 
 				
-				if (events == null){
-					return null;
+				// initially fill everything as empty
+				for (int x = 1; x < res[i].length; x++) {
+					res[i][x] = "";
 				}
-				else if (events.size() == 0){
-					for (int x = 1; x < 7; x++) {
-						res[i][x] = "\t";
-					}
-				}
-				
+
 				for (Event event : events){
-					String entry = "\t"; // if event is null
+					String entry = ""; // if event is null
 						
-					if (event.getLocation() != null) { 
-					  entry = event.getLocation()+"\t";
+					if (event.getTitle() != null) { 
+					  entry = event.getTitle() + "";
 					}
 					
+					
+					// find location in this days rows 
 					for( int k = 0; k < Event.VALID_TIMES.length; k++ ) {
-						int thisTime = Event.VALID_TIMES[k];
-						if( event.getStartTime() == thisTime) {
+						if( event.getStartTime() == Event.VALID_TIMES[k]) {
 							res[i][k+1] = entry;
+							break;
 						}
 						
-					}
-				
-					// fill up with empties
-					for (int x = 1; x < 7; x++) {
-						if (res[i][x] == null){
-							res[i][x] = "\t";
-						}
 					}
 					
 				}
@@ -83,7 +77,7 @@ public class WeekReport extends Report {
 			
 			for (int j = 0; j < res.length; j++){
 				for (int k = 0; k < res[0].length; k++){
-					response += res[j][k];
+					response += res[j][k] + "\t";
 				}
 				response += "\n";
 			}
