@@ -10,7 +10,7 @@ public class NewReportToScreen extends NewReport {
 	
 	void run() {
 		super.run();
-		if( report == null ) {
+		if( report != null ) {
 			System.out.println( report );
 		}
 	}
