@@ -24,10 +24,15 @@ public class Cli extends CliCommand {
 	
 	private Schedule schedule = null;
 	
+	private final static String programName = "KaiSei";
+	
 	public void run(){
 
-		Character foo;
+		// print application name
 		
+		Helpers.manifestData( programName );
+		
+		Character foo;
 
 		do {
 			System.out.println();

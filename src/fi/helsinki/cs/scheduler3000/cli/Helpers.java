@@ -86,5 +86,23 @@ public class Helpers {
 		}	
 		System.out.println();
 	}
+	
+	static void manifestData(String data) {
+		char manifestChar = '*';
+		
+		// full rw of *
+		int lenght = data.length() + 4;
+		for(int i = 0; i < lenght; i++) {
+			System.out.print( manifestChar );
+		}
+		System.out.println();
+		System.out.println( manifestChar + " " + data + " " + manifestChar );
+		
+		// full row of *
+		for(int i = 0; i < lenght; i++) {
+			System.out.print( manifestChar );
+		}
+		System.out.println();
+	}
 
 }
