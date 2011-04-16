@@ -24,7 +24,7 @@ public class NewEvent extends CliCommand {
 		while( eventDay == null ) {
 			
 			System.out.println("Which day is the event?");
-			Helpers.printDates();
+			Helpers.printDates( this.schedule );
 			printPrompt();
 			eventDayTemp =  input.nextLine();
 
@@ -34,6 +34,11 @@ public class NewEvent extends CliCommand {
 			
 			try {
 				eventDay = Helpers.getDay(eventDayTemp);
+				// validate that the day actually is part of the Schedule
+				if( ! this.schedule.getDays().contains( eventDay ) ) {
+					System.out.println("Date is not part of this schedule");
+					eventDay = null;
+				}
 			} catch (Exception e) {
 				System.out.println("Invalid date. Try again, please");
 			}
