@@ -48,5 +48,28 @@ public class EventTest {
 		event.setEndTime(14);
 		assertEquals( 14, event.getEndTime() );
 	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidStart(){
+		event.setStartTime(9);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void testInvalidEnd(){
+		event.setStartTime(10);
+		event.setEndTime(8);
+	}
+	
+	public void testAllValidStartTimes() {
+		for(int j : Event.VALID_TIMES) {
+			assertTrue( Event.isValidStartTime(j) );
+		}
+		// test invalid times
+		assertFalse( Event.isValidStartTime(6) );
+		assertFalse( Event.isValidStartTime(7) );
+		assertFalse( Event.isValidStartTime(9) );
+		assertFalse( Event.isValidStartTime(21) );
+		assertFalse( Event.isValidStartTime(22) );
+	}
 	 
 }

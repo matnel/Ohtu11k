@@ -49,7 +49,11 @@ public class Event {
 
 	// separate validation?
 	public void setStartTime(int startTime) {
-		this.startTime = startTime;
+		if( isValidStartTime(startTime) ) {
+			this.startTime = startTime;
+		} else {
+			throw new IllegalArgumentException("Invalid end time");
+		}
 	}
 
 	public int getEndTime() {
@@ -57,7 +61,11 @@ public class Event {
 	}
 
 	public void setEndTime(int endTime) {
-		this.endTime = endTime;
+		if( isValidEndTime(startTime, endTime) ) {
+			this.endTime = endTime;
+		} else {
+			throw new IllegalArgumentException("Invalid end time");
+		}
 	}
 
 	public String getTitle() {
@@ -72,7 +80,7 @@ public class Event {
 	public static final int[] VALID_TIMES = {8,10,12,14,16,18};
 	
 	public static boolean isValidStartTime(int time) {
-		return Arrays.binarySearch( VALID_TIMES , time ) > 0;
+		return Arrays.binarySearch( VALID_TIMES , time ) >= 0;
 	}
 	
 	public static boolean isValidEndTime(int startTime, int endTime ) {
