@@ -26,14 +26,19 @@ public class NewSchedule extends CliCommand {
 		System.out.println("Give dates you want to include in the scedule");
 		System.out.println("Stop giving the dates by entering \""+endCommand+"\"");
 		System.out.println("One at a time, please");
-
-		while( !in.toLowerCase().equals(endCommand) ) {
 		
+
+		while( true ) {
 		
 			Helpers.printDates();
 			Helpers.printSelection(dates);
 			printPrompt();
 			in = input.nextLine().trim();
+			
+			if( in.toLowerCase().equals(endCommand) ) {
+				// done adding fates. Move away
+				break;
+			}
 
 			try {
 				Day day = Helpers.getDay( in.trim() );
