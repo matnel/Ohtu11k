@@ -27,9 +27,6 @@ public class Cli extends CliCommand {
 	private final static String programName = "KaiSei";
 	
 	public void run(){
-
-		// print application name
-		
 		Helpers.manifestData( programName );
 		
 		Character foo;
@@ -43,14 +40,14 @@ public class Cli extends CliCommand {
 			switch (foo) {
 			
 			case 'p':
-				if (schedule == null){ // cannot do this if schedule is not existing
+				if (schedule == null) { // cannot do this if schedule is not existing
 					break;
 				}
 				command = new NewReportToScreen(schedule);
 				break;
 				
 			case 'a':
-				if (schedule == null){ // cannot do this if schedule is not existing 
+				if (schedule == null) { // cannot do this if schedule is not existing
 					break;
 				}
 				command = new NewEvent(schedule);
@@ -71,7 +68,7 @@ public class Cli extends CliCommand {
 				break;
 				
 			case 'f':
-				if (schedule == null){ // cannot do this if schedule is not existing
+				if (schedule == null) { // cannot do this if schedule is not existing
 					break;
 				}
 				command = new NewReportToFile(schedule);
@@ -83,7 +80,7 @@ public class Cli extends CliCommand {
 				break;
 				
 			case 'o':
-				command = new OpenSchedule(schedule);
+				command = new OpenSchedule();
 				break;
 				
 			case 'q':
@@ -93,10 +90,14 @@ public class Cli extends CliCommand {
 			default:
 				System.out.println("Don't know what that command is");
 				break;
-			
 			}
+            
 			if( command != null ) {
 				command.run();
+
+                if (command.getSchedule() != null) {
+                    this.schedule = command.getSchedule();
+                }
 			}
 		} while (true);
 

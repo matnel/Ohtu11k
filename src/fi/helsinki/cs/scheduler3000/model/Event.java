@@ -1,5 +1,6 @@
 package fi.helsinki.cs.scheduler3000.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,7 +10,7 @@ import java.util.Collections;
  */
 
 
-public class Event {
+public class Event implements Serializable {
 	
 	private Weekday.Day day;
 

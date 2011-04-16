@@ -9,6 +9,10 @@ public abstract class CliCommand {
 	
 	protected Schedule schedule;
 
+    public Schedule getSchedule() {
+        return this.schedule;
+    }
+
 	abstract void run();
 	
 	protected static void printPrompt() {

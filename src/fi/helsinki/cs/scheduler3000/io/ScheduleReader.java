@@ -15,32 +15,41 @@ public class ScheduleReader {
 		DAT
 	};
 
-	private Schedule schedule;
 	private File file;
 	private FORMAT format;
 
-	public ScheduleReader(Schedule schedule, File from, FORMAT format) {
-		this.schedule = schedule;
+	public ScheduleReader(File from, FORMAT format) {
 		this.file = from;
 		this.format = format;
 	}
 
-	public boolean read() {
+	public Schedule read() {
 		if (format == FORMAT.DAT) {
-			ObjectInputStream objectInput;
-			FileInputStream fos;
-
-			try {
-				fos = new FileInputStream(this.file);
-				objectInput = new ObjectInputStream(fos);
-				schedule.setSchedule((Schedule) objectInput.readObject());
-				return true;
-			} catch (Exception e) {
-			}
-
-			return false;
-		}
-		return false;
+			return readDat();
+		} else {
+            return null;
+        }
 	}
 
+    private Schedule readDat() {
+        ObjectInputStream objectInput;
+        FileInputStream fos = null;
+
+        try {
+            fos = new FileInputStream(this.file);
+            objectInput = new ObjectInputStream(fos);
+
+            return (Schedule) objectInput.readObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (Exception e) {
+                
+            }
+        }
+
+        return null;
+    }
 }

@@ -44,7 +44,7 @@ public class ScheduleWriter {
 				objectOutput.close();
 				return true;
 			} catch (Exception e) {
-
+                e.printStackTrace();
 			}
 		}
 		if (format == FORMAT.CSV) {
@@ -66,6 +66,7 @@ public class ScheduleWriter {
 				return true;
 			
 			} catch (IOException e1) {
+                e1.printStackTrace();
 			}
 			
 		}
