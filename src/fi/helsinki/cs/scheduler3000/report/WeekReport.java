@@ -45,8 +45,11 @@ public class WeekReport extends Report {
 			// star from first real column
 			i = 1;
 			for (Day d : days){		
-				Collection<Event> events = this.schedule.getEventsOn(d); 
-				
+				Collection<Event> events = this.schedule.getEventsOn(d);
+                if (events == null) {
+                    return null;
+                }
+
 				// initially fill everything as empty
 				for (int x = 1; x < res[i].length; x++) {
 					res[i][x] = "";

@@ -7,18 +7,19 @@ package tests;
 
 import org.junit.* ;
 
-import fi.helsinki.cs.scheduler3000.*;
 import fi.helsinki.cs.scheduler3000.model.Event;
 import fi.helsinki.cs.scheduler3000.model.Schedule;
 import fi.helsinki.cs.scheduler3000.model.Weekday;
 import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
 import fi.helsinki.cs.scheduler3000.report.Report;
 import fi.helsinki.cs.scheduler3000.report.ReportFactory;
-import junit.framework.TestCase;
+
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ReportFactoryTest extends TestCase {
+public class ReportFactoryTest {
 
 	Schedule sched;
 	HashMap<String, Object> options;

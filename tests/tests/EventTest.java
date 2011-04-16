@@ -6,13 +6,13 @@ package tests;
 
 import junit.framework.TestCase;
 
-import org.junit.* ;
+import org.junit.*;
+import static org.junit.Assert.*;
 
-import fi.helsinki.cs.scheduler3000.*;
 import fi.helsinki.cs.scheduler3000.model.Event;
 import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
 
-public class EventTest extends TestCase{
+public class EventTest {
 	
 	Event event;
 	
