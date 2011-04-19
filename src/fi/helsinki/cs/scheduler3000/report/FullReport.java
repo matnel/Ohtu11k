@@ -20,19 +20,24 @@ public class FullReport extends Report {
 	// FIXME: should this be elsewhere?
 	public String toString(){
 		String res = "";
-		
-		for (Weekday.Day day : schedule.getDays() ){
-			res += day + ":\n";
-			res += "----\n";
-			for (Event event : schedule.getEventsOn(day) ){
-				res += event.getTitle();
-				res += "\nat " + event.getStartTime() + "-" + event.getEndTime();
-				res += "\nin " + event.getLocation();
-			}
-			res += "\n\n";
-		}
-		
-		return res;
+
+        for (Integer week : Event.getAllWeeks()) {
+            for (Weekday.Day day : schedule.getDays() ){
+                for (Event event : schedule.getEventsOn(day) ){
+                    if (event.getWeek() == week.intValue()) {
+                        res += "WEEK " + week.intValue() + ":\n";
+                        res += day + ":\n";
+                        res += "----\n";
+                        res += event.getTitle();
+                        res += "\nat " + event.getStartTime() + "-" + event.getEndTime();
+                        res += "\nin " + event.getLocation() + "\n";
+                        res += "\n\n";
+                    }
+                }
+            }
+        }
+
+        return res;
 	}
 
 }

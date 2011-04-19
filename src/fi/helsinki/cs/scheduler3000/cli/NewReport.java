@@ -1,7 +1,6 @@
 package fi.helsinki.cs.scheduler3000.cli;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 import fi.helsinki.cs.scheduler3000.model.Schedule;
 import fi.helsinki.cs.scheduler3000.model.Weekday.Day;
@@ -84,21 +83,27 @@ public class NewReport extends CliCommand {
 	private Report dayReportDialog() {
 	
 		while( true ) {
-			System.out.println("Which day you want to see your schedule for?");
+            System.out.println("Which day you want to see your schedule for?");
 			Helpers.printSelection( this.schedule.getDays() );
 			printPrompt();
 			
 			String in = input.nextLine();
-			
+
+            System.out.println("Which week is the day in?");
+            int week = getInt();
+            
 			try {
 				Day day = Helpers.getDay(in , this.schedule.getDays() );
-				
-				return ReportFactory.makeReport(ReportFactory.ReportType.DAY, schedule, getOptions("day", day));
+
+                HashMap<String, Object> options = getOptions("day", day);
+                options.put("week", new Integer(week));
+                
+				return ReportFactory.makeReport(ReportFactory.ReportType.DAY, schedule, options);
 				
 			} catch (Exception e) {
 				System.out.println("Invalid date given");
 			}
-			
+
 		}
 
 	}
@@ -119,7 +124,7 @@ public class NewReport extends CliCommand {
 			String in = input.nextLine();
 			
 			if ( in.equals(endCommand) ) {
-				return ReportFactory.makeReport(ReportFactory.ReportType.WEEK, schedule, getOptions("days", days));
+				break;
 			}
 			
 			try {
@@ -129,7 +134,14 @@ public class NewReport extends CliCommand {
 				System.out.println("Mistake detected. Try again");
 			}
 		}
-		
+
+        System.out.println("Which week(s) do you want to include in this report? You can give an integer or a range expression (eg. 3-7)");
+        SortedSet<Integer> weekRange = readIntRange();
+
+        HashMap<String, Object> options = getOptions("days", days);
+        options.put("weeks", weekRange);
+
+        return ReportFactory.makeReport(ReportFactory.ReportType.WEEK, schedule, options);
 	}
 
 }

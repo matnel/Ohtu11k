@@ -15,10 +15,17 @@ public class NewEvent extends CliCommand {
 	}
 	
 	private void newEventDialog() {
-		int startTime = -1;
+        int week;
+        int startTime = -1;
 		int endTime = -1;
 		String location, title, eventDayTemp;
 		Day eventDay = null;
+
+        {
+            System.out.println("Which week is the event?");
+            week = getInt();
+        } while( !Event.isValidWeek( week ) );
+
 
 		// validate user input in place
 		while( eventDay == null ) {
@@ -70,13 +77,13 @@ public class NewEvent extends CliCommand {
 
 		System.out.print("Adding event to schedule...");
 
-		this.execute(eventDay, title, location, startTime, endTime);
+		this.execute(eventDay, title, location, startTime, endTime, week);
 		System.out.println("ok!");
 
 	}
 	
-	private void execute(Day day, String title, String location, int startTime, int endTime) {
-		Event event = new Event(day, title, location, startTime, endTime);
+	private void execute(Day day, String title, String location, int startTime, int endTime, int week) {
+        Event event = new Event(day, title, location, startTime, endTime, week);
 		schedule.addEvent(event);
 	}
 

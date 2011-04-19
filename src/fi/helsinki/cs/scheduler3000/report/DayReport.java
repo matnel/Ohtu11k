@@ -33,8 +33,20 @@ public class DayReport extends Report {
 			}
 			
 			res += weekday + ":\n------\n";
+
+            boolean filterByWeek = false;
+            int week = 0;
+
+            if (this.options.containsKey("week")) {
+                filterByWeek = true;
+                week = ((Integer) this.options.get("week")).intValue();
+            }
 			
 			for (Event e : events){
+                if (filterByWeek && e.getWeek() != week) {
+                    continue;
+                }
+                
 				if(e.getTitle().equals("")){
 					res += "<no title for this event>";
 				}
