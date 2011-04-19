@@ -54,12 +54,13 @@ public class ScheduleWriter {
 			
 				CsvWriter writer = new CsvWriter(fos, ',' );
 				for( Event e : schedule.allEvents() ) {
-					String[] headers = new String[5];
-					headers[0] = e.getDay().getName();
-					headers[1] = e.getTitle();
-					headers[2] = e.getLocation();
-					headers[3] = "" + e.getStartTime();
-					headers[4] = "" + e.getEndTime();
+					String[] headers = new String[6];
+					headers[0] = "" + e.getWeek();
+					headers[1] = e.getDay().getName();
+					headers[2] = e.getTitle();
+					headers[3] = e.getLocation();
+					headers[4] = "" + e.getStartTime();
+					headers[5] = "" + e.getEndTime();
 					writer.writeRecord(headers);
 				}
 				writer.close();
