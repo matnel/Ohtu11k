@@ -24,6 +24,7 @@ public class ReportFactoryTest {
 	Schedule sched;
 	HashMap<String, Object> options;
 	final int STARTTIME = 8, ENDTIME = 12;
+	final int WEEK = 1;
 	final String TITLE = "title", LOCATION = "location"; 
 
 	@Before
@@ -33,7 +34,7 @@ public class ReportFactoryTest {
 		weekdays.add(Weekday.Day.THU);
 
 		sched = new Schedule(weekdays);
-		sched.addEvent( new Event(Weekday.Day.MON, TITLE, LOCATION, STARTTIME, ENDTIME));
+		sched.addEvent( new Event(Weekday.Day.MON, TITLE, LOCATION, STARTTIME, ENDTIME, WEEK));
 		
 		options = new HashMap<String, Object>();
 

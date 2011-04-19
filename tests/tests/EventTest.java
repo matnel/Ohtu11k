@@ -18,7 +18,7 @@ public class EventTest {
 	
 	@Before
 	public void setUp() {
-		event = new Event( Day.MON, "title", "testlaboratory", 8, 12);
+		event = new Event( Day.MON, "title", "testlaboratory", 8, 12, 1);
 	}
 	
 	@After

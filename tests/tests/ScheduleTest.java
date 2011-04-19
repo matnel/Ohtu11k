@@ -31,10 +31,10 @@ public class ScheduleTest {
 		week.add(Day.FRI);
 		
 		events = new ArrayList<Event>();
-		events.add(new Event( Day.MON, "first", "firstLocation", 8, 10));
-		events.add(new Event( Day.TUE, "second", "secondLocation", 18, 20));
-		events.add(new Event( Day.WED, "third", "thirdLocation", 12, 14));
-		events.add(new Event( Day.THU, "fourth", "fourthLocation", 16, 18));
+		events.add(new Event( Day.MON, "first", "firstLocation", 8, 10, 1));
+		events.add(new Event( Day.TUE, "second", "secondLocation", 18, 20, 1));
+		events.add(new Event( Day.WED, "third", "thirdLocation", 12, 14, 1));
+		events.add(new Event( Day.THU, "fourth", "fourthLocation", 16, 18, 1));
 		
 	}
 
@@ -106,7 +106,7 @@ public class ScheduleTest {
 	@Test
 	public void testAddEvent(){
 		schedule = new Schedule(week, "period");
-		Event e = new Event( Day.FRI, "testAddEvent", "testAddEventLocation", 16, 20);
+		Event e = new Event( Day.FRI, "testAddEvent", "testAddEventLocation", 16, 20, 1);
 		schedule.addEvent(e);
 		
 		assertEquals(1, schedule.getEventsOn(Day.FRI).size());
@@ -117,7 +117,7 @@ public class ScheduleTest {
 	public void testAddEventWhenWrongDay(){
 		schedule = new Schedule(week, "period");
 		
-		Event invalid = new Event( Day.SUN, "testAddEvent", "testAddEventLocation", 16, 20 );
+		Event invalid = new Event( Day.SUN, "testAddEvent", "testAddEventLocation", 16, 20, 1 );
 		schedule.addEvent(invalid);
 		
 	}
